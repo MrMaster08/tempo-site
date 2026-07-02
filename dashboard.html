@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tempo · Developer</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ─────────────────────────────────────────── */
+:root {
+  --green-050: #eef8f1;
+  --green-100: #d6efe0;
+  --green-300: #5bd48f;
+  --green-500: #1f9d5b;
+  --green-600: #167a46;
+  --green-700: #0f5e37;
+  --green-900: #0a3b22;
+  --ink: #10251a;
+  --ink-2: #40544a;
+  --ink-3: #566a60;
+  --paper: #FAFAF6;          /* warm paper */
+  --card: #ffffff;
+  --field: #ffffff;
+  --line: rgba(16, 40, 26, 0.10);
+  --line-2: rgba(16, 40, 26, 0.16);
+  --chip-bg: #e4f6ec;
+  --chip-ink: #0f613a;
+  --ok: #167a46;
+  --ok-bg: #e4f6ec;
+  --danger: #b3261e;
+  --danger-bg: #fbeae8;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow-sm: 0 2px 8px -2px rgba(10, 59, 34, 0.10);
+  --shadow: 0 24px 64px -28px rgba(10, 59, 34, 0.30);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --green-050: #122419;
+    --green-100: #16301f;
+    --green-300: #7fe0a8;
+    --green-500: #35bb74;
+    --green-600: #2aa063;
+    --green-700: #17824a;
+    --green-900: #0a3b22;
+    --ink: #edf5ef;
+    --ink-2: #b4c3ba;
+    --ink-3: #94a69c;
+    --paper: #0b110d;
+    --card: #131b16;
+    --field: #0e1611;
+    --line: rgba(237, 245, 239, 0.11);
+    --line-2: rgba(237, 245, 239, 0.18);
+    --chip-bg: #16301f;
+    --chip-ink: #8fe6b4;
+    --ok: #8fe6b4;
+    --ok-bg: #12301f;
+    --danger: #ff9b8f;
+    --danger-bg: #331915;
+    --shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.5);
+    --shadow: 0 24px 64px -28px rgba(0, 0, 0, 0.75);
+  }
+}
+
+/* ── Base ───────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { display: block; max-width: 100%; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+:focus-visible {
+  outline: 2px solid var(--green-500);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+::selection { background: var(--green-100); color: var(--ink); }
+
+h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.015em; }
+.kicker {
+  display: block;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--green-600);
+}
+@media (prefers-color-scheme: dark) { .kicker { color: var(--green-300); } }
+
+/* ── Buttons ────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--green-600); color: #fff;
+  padding: 11px 20px; border-radius: 999px;
+  font-family: inherit; font-size: 14.5px; font-weight: 600;
+  text-decoration: none; border: 0; cursor: pointer;
+  box-shadow: 0 6px 20px -8px rgba(15, 99, 56, 0.55);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+.btn:hover { background: var(--green-700); transform: translateY(-1px); }
+.btn:active { transform: translateY(0) scale(0.98); }
+.btn[disabled] { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
+.btn svg { width: 16px; height: 16px; flex: none; }
+.btn.ghost {
+  background: transparent; color: var(--ink);
+  border: 1.5px solid var(--line-2); box-shadow: none;
+}
+.btn.ghost:hover { border-color: var(--green-500); color: var(--green-600); background: var(--green-050); }
+@media (prefers-color-scheme: dark) { .btn.ghost:hover { color: var(--green-300); } }
+.btn.small { padding: 8px 14px; font-size: 13.5px; }
+
+/* ── Sign-in ────────────────────────────────────────── */
+.auth-screen {
+  min-height: 100dvh;
+  display: grid; place-items: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(720px 420px at 30% -10%, var(--green-050), transparent 70%),
+    var(--paper);
+}
+.auth-card {
+  width: 100%; max-width: 400px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  box-shadow: var(--shadow);
+}
+.auth-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 22px; }
+.auth-brand img { width: 40px; height: 40px; border-radius: 10px; }
+.auth-brand b { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.auth-brand .tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--green-600); background: var(--green-050);
+  border: 1px solid var(--green-100); padding: 3px 9px; border-radius: 999px;
+}
+@media (prefers-color-scheme: dark) { .auth-brand .tag { color: var(--green-300); } }
+.auth-card p.intro { font-size: 14px; color: var(--ink-2); margin-bottom: 22px; }
+
+.field { margin-bottom: 16px; }
+.field label {
+  display: block; font-size: 13px; font-weight: 600;
+  color: var(--ink-2); margin-bottom: 6px;
+}
+.field input[type="email"],
+.field input[type="password"],
+.field input[type="text"] {
+  width: 100%;
+  font-family: inherit; font-size: 15px; color: var(--ink);
+  background: var(--field);
+  border: 1.5px solid var(--line-2);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+.field input::placeholder { color: var(--ink-3); }
+.field input:focus {
+  outline: none;
+  border-color: var(--green-500);
+  box-shadow: 0 0 0 3px rgba(31, 157, 91, 0.18);
+}
+.auth-card .btn { width: 100%; margin-top: 6px; }
+
+/* ── Inline feedback ────────────────────────────────── */
+.msg { font-size: 13.5px; font-weight: 500; margin-top: 14px; min-height: 1em; }
+.msg:empty { margin-top: 0; }
+.msg.err { color: var(--danger); }
+.msg.ok { color: var(--ok); }
+.banner {
+  display: none;
+  font-size: 13.5px; font-weight: 500;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px; margin-bottom: 16px;
+}
+.banner.err { display: block; color: var(--danger); background: var(--danger-bg); }
+.banner.ok  { display: block; color: var(--ok); background: var(--ok-bg); }
+
+/* ── App shell ──────────────────────────────────────── */
+#app { display: none; }
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 0; flex-wrap: wrap;
+}
+.topbar .brand { display: flex; align-items: center; gap: 11px; }
+.topbar .brand img { width: 34px; height: 34px; border-radius: 9px; }
+.topbar .brand .who { display: flex; flex-direction: column; line-height: 1.2; }
+.topbar .brand .who .t { font-size: 15.5px; font-weight: 700; letter-spacing: -0.01em; }
+.topbar .brand .who .e { font-size: 12.5px; color: var(--ink-3); }
+.topbar .actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+
+main { padding: 32px 0 72px; }
+.section { margin-top: 40px; }
+.section:first-of-type { margin-top: 8px; }
+.section-head { margin-bottom: 16px; }
+.section-head h2 { margin-top: 2px; }
+.section-head .hint { font-size: 13px; color: var(--ink-3); margin-top: 3px; }
+
+/* ── Stat cards ─────────────────────────────────────── */
+.stats {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+}
+.stat {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 20px 18px;
+  box-shadow: var(--shadow-sm);
+}
+.stat .label { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.stat .value { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; margin-top: 8px; line-height: 1; }
+.stat .sub { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+.stat .sub.accent { color: var(--green-600); font-weight: 600; }
+@media (prefers-color-scheme: dark) { .stat .sub.accent { color: var(--green-300); } }
+
+/* ── Panels / charts ────────────────────────────────── */
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.grid-2 { display: grid; gap: 16px; grid-template-columns: repeat(2, 1fr); }
+.chart-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+.chart-head h3 { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+.chart-head .peak { font-size: 12.5px; color: var(--ink-3); }
+.chart-wrap { margin-top: 12px; }
+.chart-wrap svg { width: 100%; height: auto; display: block; }
+.chart-empty {
+  display: grid; place-items: center;
+  min-height: 150px;
+  font-size: 13.5px; color: var(--ink-3);
+  border: 1px dashed var(--line-2);
+  border-radius: var(--radius-sm);
+  text-align: center; padding: 16px;
+}
+.bar { fill: var(--green-500); stroke: var(--green-700); stroke-width: 1.3; stroke-linejoin: round; transition: fill 0.15s ease; }
+.bar:hover { fill: var(--green-600); }
+.chart-b .bar { fill: var(--green-600); stroke: var(--green-900); }
+@media (prefers-color-scheme: dark) { .chart-b .bar { stroke: var(--green-700); } }
+.axis { stroke: var(--line-2); fill: none; stroke-width: 1.4; stroke-linecap: round; }
+.axis-label { fill: var(--ink-3); font-size: 11px; font-family: inherit; }
+
+/* ── Controls panel ─────────────────────────────────── */
+.controls-grid { display: grid; gap: 18px; }
+.switch-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 4px 0;
+}
+.switch { position: relative; display: inline-flex; flex: none; }
+.switch input { position: absolute; opacity: 0; width: 46px; height: 26px; margin: 0; cursor: pointer; }
+.switch .track {
+  width: 46px; height: 26px; border-radius: 999px;
+  background: var(--line-2);
+  transition: background 0.18s ease;
+  display: inline-block; position: relative;
+}
+.switch .thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: transform 0.18s ease;
+}
+.switch input:checked + .track { background: var(--green-500); }
+.switch input:checked + .track .thumb { transform: translateX(20px); }
+.switch input:focus-visible + .track { outline: 2px solid var(--green-500); outline-offset: 3px; }
+.switch-row .switch-label { font-size: 15px; font-weight: 600; }
+.switch-row .switch-label .sl-sub { display: block; font-size: 12.5px; font-weight: 400; color: var(--ink-3); }
+.controls-caption { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+.save-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+/* ── Grants ─────────────────────────────────────────── */
+.grant-form { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+.grant-form .field { flex: 1 1 240px; margin-bottom: 0; }
+.grant-actions { display: flex; gap: 10px; }
+
+/* ── Table ──────────────────────────────────────────── */
+.table-wrap { margin-top: 18px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 13.5px; }
+thead th {
+  text-align: left; font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3);
+  padding: 12px 14px; border-bottom: 1px solid var(--line);
+  background: var(--card); position: sticky; top: 0;
+  white-space: nowrap;
+}
+tbody td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: var(--green-050); }
+td .email { font-weight: 600; }
+td .muted { color: var(--ink-3); }
+.flag { font-weight: 700; }
+.flag.yes { color: var(--ok); }
+.flag.no { color: var(--ink-3); }
+.pill {
+  display: inline-block; font-size: 11.5px; font-weight: 700;
+  padding: 2px 8px; border-radius: 999px;
+  background: var(--chip-bg); color: var(--chip-ink);
+}
+.pill.admin { background: var(--green-500); color: #fff; }
+@media (prefers-color-scheme: dark) { .pill.admin { color: #06170e; } }
+.table-note { font-size: 12.5px; color: var(--ink-3); margin-top: 12px; }
+.spin { color: var(--ink-3); font-size: 13.5px; padding: 4px 0; }
+
+/* ── Footnote ───────────────────────────────────────── */
+.footnote {
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 13px; color: var(--ink-3);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.footnote svg { width: 16px; height: 16px; flex: none; color: var(--green-500); }
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 720px) {
+  .grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat { padding: 16px 15px 14px; }
+  .stat .value { font-size: 28px; }
+  .panel { padding: 18px 16px; }
+  .auth-card { padding: 28px 22px; }
+  .topbar .actions { width: 100%; margin-left: 0; }
+  .topbar .actions .btn { flex: 1; }
+  .grant-actions { width: 100%; }
+  .grant-actions .btn { flex: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Sign in ─────────────────────────────────────────── -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <img src="assets/icon-192.png" alt="Tempo app icon">
+      <b>Tempo</b>
+      <span class="tag">Developer</span>
+    </div>
+    <p class="intro">Private operations console. Sign in with your Tempo sync account.</p>
+    <form id="signInForm" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" autocomplete="username"
+               inputmode="email" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" autocomplete="current-password"
+               placeholder="Your password" required>
+      </div>
+      <button class="btn" type="submit" id="signInBtn">Sign in</button>
+      <p class="msg" id="authMsg" role="alert" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ── Dashboard ──────────────────────────────────────── -->
+<div id="app">
+  <div class="topbar">
+    <div class="wrap row">
+      <div class="brand">
+        <img src="assets/icon-192.png" alt="Tempo app icon">
+        <span class="who">
+          <span class="t">Tempo · Developer</span>
+          <span class="e" id="whoEmail"></span>
+        </span>
+      </div>
+      <div class="actions">
+        <button class="btn ghost small" type="button" id="refreshBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          Refresh
+        </button>
+        <button class="btn small" type="button" id="signOutBtn">Sign out</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="banner" id="loadBanner" role="alert" aria-live="polite"></div>
+
+    <!-- Stats -->
+    <section class="section" aria-labelledby="statsHead">
+      <div class="section-head">
+        <span class="kicker">At a glance</span>
+        <h2 id="statsHead">The numbers</h2>
+      </div>
+      <div class="stats" id="statsGrid" aria-busy="true">
+        <div class="spin">Loading…</div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="section" aria-labelledby="chartsHead">
+      <div class="section-head">
+        <span class="kicker">Trends</span>
+        <h2 id="chartsHead">Last 30 days</h2>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <div class="chart-head">
+            <h3>Signups</h3>
+            <span class="peak" id="peakSignups"></span>
+          </div>
+          <div class="chart-wrap chart-a" id="chartSignups"><div class="spin">Loading…</div></div>
+        </div>
+        <div class="panel">
+          <div class="chart-head">
+            <h3>Sync activity</h3>
+            <span class="peak" id="peakChanges"></span>
+          </div>
+          <div class="chart-wrap chart-b" id="chartChanges"><div class="spin">Loading…</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Remote controls -->
+    <section class="section" aria-labelledby="ctrlHead">
+      <div class="section-head">
+        <span class="kicker">Remote controls</span>
+        <h2 id="ctrlHead">What every app sees</h2>
+        <p class="hint">These settings ship to the apps — no rebuild needed.</p>
+      </div>
+      <div class="panel">
+        <div class="controls-grid">
+          <div class="switch-row">
+            <label class="switch">
+              <input type="checkbox" id="freeToggle">
+              <span class="track"><span class="thumb"></span></span>
+            </label>
+            <span class="switch-label">
+              Make Tempo Plus free for everyone
+              <span class="sl-sub">Unlocks every Plus feature for all accounts.</span>
+            </span>
+          </div>
+
+          <div class="field" style="margin:0;">
+            <label for="announceInput">In-app announcement</label>
+            <input id="announceInput" type="text" maxlength="280"
+                   placeholder="Leave blank to show nothing">
+          </div>
+
+          <div class="field" style="margin:0;">
+            <label for="minVerInput">Minimum version note</label>
+            <input id="minVerInput" type="text" maxlength="40"
+                   placeholder="e.g. 1.4.0 — leave blank for none">
+          </div>
+
+          <div class="save-row">
+            <button class="btn" type="button" id="saveConfigBtn">Save changes</button>
+            <span class="msg" id="configMsg" role="status" aria-live="polite"></span>
+          </div>
+          <p class="controls-caption">Changes reach apps the next time they sync.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Premium grants -->
+    <section class="section" aria-labelledby="grantHead">
+      <div class="section-head">
+        <span class="kicker">Premium grants</span>
+        <h2 id="grantHead">Grant or revoke Tempo Plus</h2>
+        <p class="hint">Give a specific account full Plus access, or take it back.</p>
+      </div>
+      <div class="panel">
+        <form class="grant-form" id="grantForm" novalidate>
+          <div class="field">
+            <label for="grantEmail">Account email</label>
+            <input id="grantEmail" type="email" autocomplete="off" inputmode="email"
+                   placeholder="person@example.com">
+          </div>
+          <div class="grant-actions">
+            <button class="btn" type="button" id="grantBtn">Grant Plus</button>
+            <button class="btn ghost" type="button" id="revokeBtn">Revoke</button>
+          </div>
+        </form>
+        <p class="msg" id="grantMsg" role="status" aria-live="polite"></p>
+
+        <div class="table-wrap">
+          <table id="usersTable">
+            <thead>
+              <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">Joined</th>
+                <th scope="col">Last seen</th>
+                <th scope="col">Confirmed</th>
+                <th scope="col">Paired</th>
+                <th scope="col">Plus</th>
+                <th scope="col">Admin</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody">
+              <tr><td colspan="8"><span class="spin">Loading…</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note" id="usersNote"></p>
+      </div>
+    </section>
+
+    <p class="footnote">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      No analytics SDKs anywhere — every number here comes from the sync accounts users created themselves.
+    </p>
+  </main>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var SUPABASE_URL = "https://kngjoqgnqmkvrotaesxl.supabase.co";
+  var ANON_KEY = "sb_publishable_JhOy3fwl1WsauzERXaTySA_qj0VgktA";
+  var SS_TOKEN = "tempo_dev_token";
+  var SS_EMAIL = "tempo_dev_email";
+
+  var lastStats = null;
+
+  /* ── Small helpers ──────────────────────────────── */
+  function $(id) { return document.getElementById(id); }
+  function tokenOf() { return sessionStorage.getItem(SS_TOKEN); }
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function num(n) { return (n == null ? 0 : Number(n)).toLocaleString(); }
+  function setMsg(el, text, kind) {
+    el.textContent = text || "";
+    el.className = "msg" + (kind ? " " + kind : "");
+  }
+  function fmtDate(iso) {
+    if (!iso) return "—";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "—";
+    return d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+  }
+  function fmtDay(dayStr) {
+    if (!dayStr) return "";
+    var d = new Date(dayStr);
+    if (isNaN(d.getTime())) return String(dayStr).slice(0, 10);
+    return d.toLocaleDateString(undefined, { day: "numeric", month: "short" });
+  }
+
+  /* ── Network ────────────────────────────────────── */
+  function signIn(email, password) {
+    return fetch(SUPABASE_URL + "/auth/v1/token?grant_type=password", {
+      method: "POST",
+      headers: { "apikey": ANON_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, password: password })
+    }).then(function (res) {
+      if (!res.ok) {
+        throw new Error("That email and password didn't match. Please check them and try again.");
+      }
+      return res.json();
+    }).then(function (data) {
+      if (!data || !data.access_token) {
+        throw new Error("Sign-in succeeded but no session was returned. Please try again.");
+      }
+      return data.access_token;
+    });
+  }
+
+  function rpc(name, body) {
+    return fetch(SUPABASE_URL + "/rest/v1/rpc/" + name, {
+      method: "POST",
+      headers: {
+        "apikey": ANON_KEY,
+        "Authorization": "Bearer " + tokenOf(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body || {})
+    }).then(function (res) {
+      return res.text().then(function (text) {
+        var data = null;
+        if (text) { try { data = JSON.parse(text); } catch (e) { data = text; } }
+        if (!res.ok) {
+          var msg = (data && data.message) ? data.message
+                  : (typeof data === "string" && data ? data : "Request failed (" + res.status + ").");
+          var err = new Error(msg);
+          err.status = res.status;
+          throw err;
+        }
+        return data;
+      });
+    });
+  }
+
+  /* ── Screen switching ───────────────────────────── */
+  function showAuth(message, kind) {
+    $("app").style.display = "none";
+    $("authScreen").style.display = "grid";
+    setMsg($("authMsg"), message || "", kind || (message ? "err" : ""));
+    var btn = $("signInBtn");
+    btn.disabled = false; btn.textContent = "Sign in";
+  }
+  function showApp() {
+    $("authScreen").style.display = "none";
+    $("app").style.display = "block";
+    $("whoEmail").textContent = sessionStorage.getItem(SS_EMAIL) || "";
+  }
+  function forceSignOut(message, kind) {
+    sessionStorage.removeItem(SS_TOKEN);
+    sessionStorage.removeItem(SS_EMAIL);
+    lastStats = null;
+    showAuth(message, kind);
+  }
+
+  /* ── Rendering: stats ───────────────────────────── */
+  function renderStats(s) {
+    var cards = [
+      {
+        label: "Accounts",
+        value: num(s.total_users),
+        sub: num(s.confirmed_users) + " confirmed"
+      },
+      {
+        label: "Active · 7d",
+        value: num(s.active_7d),
+        sub: "synced in the last week"
+      },
+      {
+        label: "New · 30d",
+        value: num(s.new_30d),
+        sub: "accounts this month"
+      },
+      {
+        label: "Pairs",
+        value: num(s.pairs_active),
+        sub: num(s.pairs_pending) + " pending"
+      },
+      {
+        label: "Synced changes",
+        value: num(s.changes_total),
+        sub: num(s.changes_7d) + " in the last 7 days"
+      },
+      {
+        label: "Plus grants",
+        value: num(s.plus_grants),
+        sub: s.plus_free_for_all ? "Free for everyone is ON" : "manual grants",
+        accent: !!s.plus_free_for_all
+      }
+    ];
+    var html = cards.map(function (c) {
+      return '<div class="stat">'
+        + '<div class="label">' + esc(c.label) + '</div>'
+        + '<div class="value">' + esc(c.value) + '</div>'
+        + '<div class="sub' + (c.accent ? ' accent' : '') + '">' + esc(c.sub) + '</div>'
+        + '</div>';
+    }).join("");
+    var grid = $("statsGrid");
+    grid.innerHTML = html;
+    grid.setAttribute("aria-busy", "false");
+  }
+
+  /* ── Rendering: charts ──────────────────────────── */
+  // deterministic pseudo-random in [0,1) for the hand-drawn wobble
+  function jit(seed) {
+    var x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  }
+
+  function barChartSVG(data, klass) {
+    var W = 640, H = 200, padL = 6, padR = 6, padT = 18, padB = 30;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+    var baseY = padT + plotH;
+    var n = data.length;
+    var counts = data.map(function (d) { return Number(d.count) || 0; });
+    var max = Math.max.apply(null, counts.concat([1]));
+    var slot = plotW / n;
+    var barW = Math.max(2, Math.min(slot * 0.66, 30));
+
+    var bars = "";
+    for (var i = 0; i < n; i++) {
+      var c = counts[i];
+      var h = c === 0 ? 0 : Math.max(2.5, (c / max) * plotH);
+      var cx = padL + slot * i + slot / 2;
+      var jx = (jit(i + 1) - 0.5) * 1.4;   // horizontal wobble
+      var xl = cx - barW / 2 + jx;
+      var xr = cx + barW / 2 + jx;
+      var top = baseY - h;
+      // slightly uneven top edge for the hand-drawn feel (does not change bar height reading much)
+      var tL = top + (jit(i + 11) - 0.5) * 1.6;
+      var tR = top + (jit(i + 23) - 0.5) * 1.6;
+      var midX = (xl + xr) / 2 + (jit(i + 5) - 0.5) * 1.2;
+      var midY = top - (jit(i + 7)) * 1.4;
+      var d = "M " + xl.toFixed(1) + " " + baseY.toFixed(1)
+            + " L " + (xl + (jit(i + 3) - 0.5)).toFixed(1) + " " + tL.toFixed(1)
+            + " Q " + midX.toFixed(1) + " " + midY.toFixed(1) + " " + xr.toFixed(1) + " " + tR.toFixed(1)
+            + " L " + (xr + (jit(i + 9) - 0.5)).toFixed(1) + " " + baseY.toFixed(1)
+            + " Z";
+      if (h === 0) {
+        // zero day: a faint tick on the baseline (no bar), still hoverable
+        bars += '<g><title>' + esc(fmtDay(data[i].day)) + ': 0</title>'
+              + '<line x1="' + xl.toFixed(1) + '" y1="' + baseY.toFixed(1) + '" x2="' + xr.toFixed(1)
+              + '" y2="' + baseY.toFixed(1) + '" class="axis"/></g>';
+      } else {
+        bars += '<g><title>' + esc(fmtDay(data[i].day)) + ': ' + num(c) + '</title>'
+              + '<path class="bar" d="' + d + '"/></g>';
+      }
+    }
+
+    // hand-drawn wavy baseline
+    var bl = "M " + padL + " " + baseY.toFixed(1);
+    var steps = 26;
+    for (var k = 1; k <= steps; k++) {
+      var bx = padL + (plotW * k / steps);
+      var by = baseY + Math.sin(k * 1.3) * 0.6;
+      bl += " L " + bx.toFixed(1) + " " + by.toFixed(1);
+    }
+
+    var first = esc(fmtDay(data[0].day));
+    var last = esc(fmtDay(data[n - 1].day));
+
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" '
+      + 'preserveAspectRatio="none" '
+      + 'aria-label="Bar chart, ' + n + ' days from ' + first + ' to ' + last + '">'
+      + bars
+      + '<path class="axis" d="' + bl + '"/>'
+      + '<text class="axis-label" x="' + padL + '" y="' + (H - 8) + '">' + first + '</text>'
+      + '<text class="axis-label" x="' + (W - padR) + '" y="' + (H - 8) + '" text-anchor="end">' + last + '</text>'
+      + '</svg>';
+  }
+
+  function renderChart(containerId, peakId, arr, klass, emptyText) {
+    var data = Array.isArray(arr) ? arr.filter(function (d) { return d && d.day != null; }) : [];
+    var box = $(containerId);
+    var peak = $(peakId);
+    if (data.length === 0) {
+      box.innerHTML = '<div class="chart-empty">' + esc(emptyText) + '</div>';
+      peak.textContent = "";
+      return;
+    }
+    var maxC = data.reduce(function (m, d) { return Math.max(m, Number(d.count) || 0); }, 0);
+    peak.textContent = "peak " + num(maxC);
+    box.innerHTML = barChartSVG(data, klass);
+  }
+
+  function renderCharts(s) {
+    renderChart("chartSignups", "peakSignups", s.signups_by_day, "a", "No signups in the last 30 days.");
+    renderChart("chartChanges", "peakChanges", s.changes_by_day, "b", "No sync activity in the last 30 days.");
+  }
+
+  /* ── Rendering: controls ────────────────────────── */
+  function renderControls(s) {
+    $("freeToggle").checked = !!s.plus_free_for_all;
+    $("announceInput").value = s.announcement == null ? "" : s.announcement;
+    $("minVerInput").value = s.min_version == null ? "" : s.min_version;
+  }
+
+  /* ── Rendering: users ───────────────────────────── */
+  function flag(v) {
+    return v
+      ? '<span class="flag yes" aria-label="Yes">✓</span>'
+      : '<span class="flag no" aria-label="No">—</span>';
+  }
+  function renderUsers(list) {
+    var body = $("usersBody");
+    var note = $("usersNote");
+    if (!Array.isArray(list) || list.length === 0) {
+      body.innerHTML = '<tr><td colspan="8"><span class="muted">No accounts yet.</span></td></tr>';
+      note.textContent = "";
+      return;
+    }
+    var rows = list.map(function (u) {
+      var name = u.display_name ? esc(u.display_name) : '<span class="muted">—</span>';
+      var plusCell = u.plus_granted ? '<span class="pill">Plus</span>' : flag(false);
+      var adminCell = u.is_admin ? '<span class="pill admin">Admin</span>' : flag(false);
+      return '<tr>'
+        + '<td><span class="email">' + esc(u.email) + '</span></td>'
+        + '<td>' + name + '</td>'
+        + '<td>' + esc(fmtDate(u.created_at)) + '</td>'
+        + '<td>' + esc(fmtDate(u.last_sign_in_at)) + '</td>'
+        + '<td>' + flag(u.confirmed) + '</td>'
+        + '<td>' + flag(u.paired) + '</td>'
+        + '<td>' + plusCell + '</td>'
+        + '<td>' + adminCell + '</td>'
+        + '</tr>';
+    }).join("");
+    body.innerHTML = rows;
+    note.textContent = "Showing " + list.length + " account" + (list.length === 1 ? "" : "s")
+      + " (newest first, up to 200).";
+  }
+
+  /* ── Loading orchestration ──────────────────────── */
+  function setLoadingUI(on) {
+    var b = $("refreshBtn");
+    b.disabled = on;
+    $("statsGrid").setAttribute("aria-busy", on ? "true" : "false");
+  }
+
+  function loadUsers() {
+    $("usersBody").innerHTML = '<tr><td colspan="8"><span class="spin">Loading…</span></td></tr>';
+    return rpc("admin_list_users", { max_rows: 200 })
+      .then(renderUsers)
+      .catch(function (e) {
+        $("usersBody").innerHTML = '<tr><td colspan="8"><span class="flag no">'
+          + esc(e.message || "Could not load accounts.") + '</span></td></tr>';
+      });
+  }
+
+  function loadAll() {
+    var banner = $("loadBanner");
+    banner.className = "banner";
+    banner.textContent = "";
+    setLoadingUI(true);
+
+    return rpc("admin_stats", {}).then(function (stats) {
+      lastStats = stats || {};
+      renderStats(lastStats);
+      renderControls(lastStats);
+      renderCharts(lastStats);
+      return loadUsers();
+    }).catch(function (e) {
+      if (e && /not authorized/i.test(e.message || "")) {
+        forceSignOut("This account is not an admin.", "err");
+        return;
+      }
+      if (e && e.status === 401) {
+        forceSignOut("Your session expired. Please sign in again.", "err");
+        return;
+      }
+      banner.className = "banner err";
+      banner.textContent = (e && e.message) ? e.message : "Could not load the dashboard.";
+    }).then(function () {
+      setLoadingUI(false);
+    });
+  }
+
+  /* ── Actions ────────────────────────────────────── */
+  function doSignIn(ev) {
+    ev.preventDefault();
+    var email = $("email").value.trim();
+    var password = $("password").value;
+    var btn = $("signInBtn");
+    if (!email || !password) {
+      setMsg($("authMsg"), "Enter your email and password.", "err");
+      return;
+    }
+    btn.disabled = true; btn.textContent = "Signing in…";
+    setMsg($("authMsg"), "", "");
+    signIn(email, password).then(function (accessToken) {
+      sessionStorage.setItem(SS_TOKEN, accessToken);
+      sessionStorage.setItem(SS_EMAIL, email);
+      $("password").value = "";
+      showApp();
+      return loadAll();
+    }).catch(function (e) {
+      btn.disabled = false; btn.textContent = "Sign in";
+      setMsg($("authMsg"), (e && e.message) ? e.message : "Sign-in failed. Please try again.", "err");
+    });
+  }
+
+  function saveConfig() {
+    var btn = $("saveConfigBtn");
+    var ann = $("announceInput").value.trim();
+    var minv = $("minVerInput").value.trim();
+    var body = {
+      p_free_for_all: $("freeToggle").checked,
+      p_announcement: ann === "" ? null : ann,
+      p_min_version: minv === "" ? null : minv
+    };
+    btn.disabled = true; btn.textContent = "Saving…";
+    setMsg($("configMsg"), "", "");
+    rpc("admin_set_config", body).then(function () {
+      setMsg($("configMsg"), "Saved.", "ok");
+      // keep lastStats in sync with what we just set
+      if (lastStats) {
+        lastStats.plus_free_for_all = body.p_free_for_all;
+        lastStats.announcement = body.p_announcement;
+        lastStats.min_version = body.p_min_version;
+        renderStats(lastStats);
+      }
+    }).catch(function (e) {
+      setMsg($("configMsg"), (e && e.message) ? e.message : "Could not save. Please try again.", "err");
+    }).then(function () {
+      btn.disabled = false; btn.textContent = "Save changes";
+    });
+  }
+
+  function grantPlus(granted) {
+    var email = $("grantEmail").value.trim();
+    if (!email) {
+      setMsg($("grantMsg"), "Enter an account email first.", "err");
+      return;
+    }
+    var gBtn = $("grantBtn"), rBtn = $("revokeBtn");
+    gBtn.disabled = true; rBtn.disabled = true;
+    setMsg($("grantMsg"), "", "");
+    rpc("admin_grant_plus", { p_email: email, p_granted: granted }).then(function (result) {
+      var msg, kind = "ok";
+      if (result === "no account with that email") { msg = "No account with that email."; kind = "err"; }
+      else if (result === "granted") { msg = "Plus granted to " + email + "."; }
+      else if (result === "revoked") { msg = "Plus revoked for " + email + "."; }
+      else { msg = String(result); }
+      setMsg($("grantMsg"), msg, kind);
+      if (kind === "ok") {
+        // refresh the table and the plus-grants stat
+        loadUsers();
+        rpc("admin_stats", {}).then(function (stats) {
+          lastStats = stats || lastStats;
+          renderStats(lastStats);
+          renderCharts(lastStats);
+        }).catch(function () { /* non-fatal */ });
+      }
+    }).catch(function (e) {
+      setMsg($("grantMsg"), (e && e.message) ? e.message : "Could not update Plus. Please try again.", "err");
+    }).then(function () {
+      gBtn.disabled = false; rBtn.disabled = false;
+    });
+  }
+
+  /* ── Wiring ─────────────────────────────────────── */
+  $("signInForm").addEventListener("submit", doSignIn);
+  $("refreshBtn").addEventListener("click", loadAll);
+  $("signOutBtn").addEventListener("click", function () { forceSignOut(); });
+  $("saveConfigBtn").addEventListener("click", saveConfig);
+  $("grantBtn").addEventListener("click", function () { grantPlus(true); });
+  $("revokeBtn").addEventListener("click", function () { grantPlus(false); });
+  $("grantForm").addEventListener("submit", function (ev) { ev.preventDefault(); grantPlus(true); });
+
+  /* ── Boot ───────────────────────────────────────── */
+  if (tokenOf()) {
+    showApp();
+    loadAll();
+  } else {
+    showAuth();
+  }
+})();
+</script>
+
+</body>
+</html>
