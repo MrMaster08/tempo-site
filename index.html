@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tempo — Tasks, Habits, Focus</title>
-<meta name="description" content="The calm, complete home for everything you mean to do. Tasks, calendar, habits and the Grove focus forest — on Mac and iPhone, together with your partner.">
-<meta property="og:title" content="Tempo — Tasks, Habits, Focus">
-<meta property="og:description" content="Get it done. Grow your grove. Tasks, calendar, habits and focus on Mac and iPhone.">
+<title>Tempo — Tasks, Calendar, Habits &amp; Focus for Mac and iPhone</title>
+<meta name="description" content="Tempo is the calm, complete home for everything you mean to do. Tasks, calendar, habits and the Grove focus system — free on Mac, coming to iPhone, and ready to share with the person you plan with.">
+<meta property="og:title" content="Tempo — Tasks, Calendar, Habits &amp; Focus">
+<meta property="og:description" content="Get it done. Grow your grove. One calm app for tasks, calendar, habits and focus — free on Mac, coming to iPhone, shareable with the person you plan with.">
+<meta property="og:type" content="website">
 <meta property="og:image" content="assets/icon-512.png">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
@@ -14,346 +15,842 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ── Tokens ─────────────────────────────────────────── */
 :root {
   --green-050: #ecfaf1;
-  --green-100: #c9f0d8;
-  --green-300: #62d98f;
-  --green-500: #2fa968;
-  --green-600: #218a54;
-  --green-700: #17753f;
-  --green-900: #0b3d24;
-  --ink: #14201a;
-  --ink-2: #48584f;
-  --ink-3: #7b8a81;
-  --paper: #fbfdfb;
+  --green-100: #d3f2e0;
+  --green-300: #5bd48f;
+  --green-500: #22a05d;
+  --green-600: #17824a;
+  --green-700: #0f6338;
+  --green-900: #0a3b22;
+  --ink: #101c15;
+  --ink-2: #42524a;
+  --ink-3: #5e6f65;
+  --paper: #fafdfb;
   --card: #ffffff;
-  --line: rgba(20, 32, 26, 0.08);
-  --radius: 18px;
-  --shadow: 0 20px 60px -24px rgba(11, 61, 36, 0.28);
+  --line: rgba(16, 28, 21, 0.09);
+  --nav-bg: rgba(250, 253, 251, 0.78);
+  --chip-bg: #e4f6ec;
+  --chip-ink: #10613a;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow-sm: 0 2px 8px -2px rgba(10, 59, 34, 0.10);
+  --shadow: 0 24px 64px -28px rgba(10, 59, 34, 0.30);
+  --shadow-lg: 0 48px 110px -36px rgba(10, 59, 34, 0.45);
+  --glow-a: rgba(34, 160, 93, 0.14);
+  --glow-b: rgba(91, 212, 143, 0.10);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --ink: #eef5f0;
-    --ink-2: #b7c4bc;
-    --ink-3: #7d8c83;
-    --paper: #0d1410;
-    --card: #16201a;
-    --line: rgba(238, 245, 240, 0.09);
-    --shadow: 0 20px 60px -24px rgba(0, 0, 0, 0.7);
-    --green-050: #12241a;
-    --green-100: #17301f;
+    --green-050: #122419;
+    --green-100: #16301f;
+    --ink: #edf5ef;
+    --ink-2: #b4c3ba;
+    --ink-3: #90a197;
+    --paper: #0b110d;
+    --card: #131b16;
+    --line: rgba(237, 245, 239, 0.10);
+    --nav-bg: rgba(11, 17, 13, 0.72);
+    --chip-bg: #16301f;
+    --chip-ink: #7fe0a8;
+    --shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.5);
+    --shadow: 0 24px 64px -28px rgba(0, 0, 0, 0.75);
+    --shadow-lg: 0 48px 110px -36px rgba(0, 0, 0, 0.85);
+    --glow-a: rgba(34, 160, 93, 0.16);
+    --glow-b: rgba(91, 212, 143, 0.07);
   }
 }
+
+/* ── Base ───────────────────────────────────────────── */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--paper);
   color: var(--ink);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
-.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+img { display: block; max-width: 100%; }
+.wrap { max-width: 1096px; margin: 0 auto; padding: 0 24px; }
 
-/* ── Nav ─────────────────────────────────────────── */
-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 0;
+:focus-visible {
+  outline: 2px solid var(--green-500);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
-.brand img { width: 40px; height: 40px; border-radius: 10px; }
-.brand span { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
-.nav-links { display: flex; align-items: center; gap: 26px; }
-.nav-links a { color: var(--ink-2); text-decoration: none; font-size: 15px; font-weight: 500; }
-.nav-links a:hover { color: var(--ink); }
+
+::selection { background: var(--green-100); color: var(--ink); }
+
+/* ── Type scale ─────────────────────────────────────── */
+h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.038em;
+  line-height: 1.03;
+}
+h1 em { font-style: normal; color: var(--green-500); }
+h2 {
+  font-size: clamp(30px, 4.2vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.032em;
+  line-height: 1.12;
+}
+h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.014em; }
+.kicker {
+  display: inline-block;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--green-600);
+  margin-bottom: 16px;
+}
+@media (prefers-color-scheme: dark) { .kicker { color: var(--green-300); } }
+.lede { font-size: 18px; color: var(--ink-2); max-width: 600px; margin-top: 16px; }
+
+/* ── Buttons ────────────────────────────────────────── */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--green-500); color: #fff;
-  padding: 11px 22px; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--green-600); color: #fff;
+  padding: 13px 26px; border-radius: 999px;
   font-size: 15px; font-weight: 600; text-decoration: none;
-  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 0 6px 20px -8px rgba(15, 99, 56, 0.55);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
 }
-.btn:hover { background: var(--green-600); transform: translateY(-1px); }
+.btn:hover { background: var(--green-700); transform: translateY(-2px); box-shadow: 0 12px 28px -10px rgba(15, 99, 56, 0.6); }
+.btn:active { transform: translateY(0) scale(0.98); box-shadow: 0 4px 12px -6px rgba(15, 99, 56, 0.5); }
+.btn svg { width: 17px; height: 17px; flex: none; }
 .btn.ghost {
   background: transparent; color: var(--ink);
   border: 1.5px solid var(--line); box-shadow: none;
 }
-.btn.ghost:hover { border-color: var(--green-500); color: var(--green-600); background: transparent; }
-.btn svg { width: 17px; height: 17px; }
+.btn.ghost:hover { border-color: var(--green-500); color: var(--green-600); background: var(--green-050); transform: translateY(-2px); }
+.btn.ghost:active { transform: translateY(0) scale(0.98); }
+@media (prefers-color-scheme: dark) { .btn.ghost:hover { color: var(--green-300); } }
+.btn.big { padding: 15px 30px; font-size: 16px; }
 
-/* ── Hero ────────────────────────────────────────── */
-header.hero {
+/* ── Nav ────────────────────────────────────────────── */
+.nav-shell {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.nav-shell.scrolled { border-bottom-color: var(--line); box-shadow: 0 4px 24px -18px rgba(10, 59, 34, 0.4); }
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+}
+.brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--ink); }
+.brand img { width: 36px; height: 36px; border-radius: 9px; }
+.brand span { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
+.nav-links { display: flex; align-items: center; gap: 8px; }
+.nav-links a:not(.btn) {
+  color: var(--ink-2); text-decoration: none;
+  font-size: 14.5px; font-weight: 500;
+  padding: 8px 12px; border-radius: 8px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.nav-links a:not(.btn):hover { color: var(--ink); background: var(--green-050); }
+.nav-links .btn { padding: 9px 20px; font-size: 14px; margin-left: 8px; }
+
+/* ── Hero ───────────────────────────────────────────── */
+.hero {
+  position: relative;
   text-align: center;
-  padding: 72px 0 0;
+  padding: 88px 0 0;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute; inset: -220px 0 auto 0; height: 780px;
   background:
-    radial-gradient(1000px 480px at 50% -140px, var(--green-050), transparent 70%);
+    radial-gradient(720px 420px at 30% 10%, var(--glow-a), transparent 68%),
+    radial-gradient(640px 400px at 72% 4%, var(--glow-b), transparent 70%),
+    radial-gradient(900px 520px at 50% -10%, var(--green-050), transparent 74%);
+  pointer-events: none;
 }
-.hero-icon { width: 96px; height: 96px; border-radius: 22px; box-shadow: var(--shadow); margin-bottom: 28px; }
-h1 {
-  font-size: clamp(40px, 6.5vw, 68px);
-  font-weight: 800; letter-spacing: -0.035em; line-height: 1.05;
+.hero > .wrap { position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--green-600);
+  background: var(--green-050); border: 1px solid var(--green-100);
+  padding: 6px 14px; border-radius: 999px;
+  margin-bottom: 24px;
 }
-h1 em { font-style: normal; color: var(--green-500); }
-.hero p.lede {
-  max-width: 620px; margin: 22px auto 0;
-  font-size: 19px; color: var(--ink-2);
+@media (prefers-color-scheme: dark) { .hero-badge { color: var(--green-300); } }
+.hero-badge .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green-500); flex: none;
 }
-.hero-ctas { display: flex; gap: 14px; justify-content: center; margin: 34px 0 10px; flex-wrap: wrap; }
+.hero .lede { margin: 24px auto 0; }
+.hero-ctas { display: flex; gap: 14px; justify-content: center; margin: 36px 0 14px; flex-wrap: wrap; }
 .hero-note { font-size: 13.5px; color: var(--ink-3); }
-.hero-shot {
-  margin: 56px auto -120px; max-width: 980px; padding: 0 24px;
-}
-.hero-shot img {
-  width: 100%; border-radius: 14px;
-  box-shadow: 0 40px 90px -30px rgba(11, 61, 36, 0.45);
+
+/* macOS window frame around the hero screenshot */
+.hero-shot { position: relative; margin: 64px auto -136px; max-width: 960px; padding: 0 24px; }
+.window {
+  background: var(--card);
   border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
 }
-.hero-spacer { height: 160px; }
+.titlebar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.titlebar .light { width: 12px; height: 12px; border-radius: 50%; }
+.titlebar .light.r { background: #ff5f57; }
+.titlebar .light.y { background: #febc2e; }
+.titlebar .light.g { background: #28c840; }
+.titlebar .title {
+  flex: 1; text-align: center;
+  font-size: 12.5px; font-weight: 500; color: var(--ink-3);
+  margin-right: 52px; /* balance the three lights */
+}
+.window img { width: 100%; }
+.hero-spacer { height: 196px; }
 
-/* ── Sections ────────────────────────────────────── */
-section { padding: 86px 0; }
-.kicker {
-  display: inline-block; font-size: 13px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--green-600); margin-bottom: 12px;
+/* Hero entrance (motion-safe only) */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  .hero .hero-badge { animation: rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s both; }
+  .hero h1         { animation: rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) 0.14s both; }
+  .hero .lede      { animation: rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) 0.24s both; }
+  .hero .hero-ctas,
+  .hero .hero-note { animation: rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) 0.34s both; }
+  .hero-shot       { animation: rise 0.9s  cubic-bezier(0.2, 0.7, 0.2, 1) 0.42s both; }
 }
-h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
-.section-lede { max-width: 560px; font-size: 17px; color: var(--ink-2); margin-top: 14px; }
 
-/* Feature grid */
-.grid {
-  display: grid; gap: 18px; margin-top: 44px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+/* ── Scroll reveal ──────────────────────────────────── */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: var(--d, 0s); }
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
 }
-.card {
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 26px;
-}
-.card .emoji { font-size: 26px; }
-.card h3 { font-size: 17px; font-weight: 700; margin: 12px 0 6px; }
-.card p { font-size: 14.5px; color: var(--ink-2); }
 
-/* Grove band */
+/* ── Sections ───────────────────────────────────────── */
+section { padding: 96px 0; }
+.section-head { max-width: 640px; }
+.section-head.center { margin: 0 auto; text-align: center; }
+
+/* ── Feature bento ──────────────────────────────────── */
+.bento { display: grid; gap: 20px; margin-top: 48px; grid-template-columns: repeat(2, 1fr); }
+.tile {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.tile:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: rgba(34, 160, 93, 0.28); }
+.tile.wide { grid-column: 1 / -1; }
+.tile .emoji {
+  display: inline-grid; place-items: center;
+  width: 46px; height: 46px; font-size: 23px;
+  background: var(--green-050); border-radius: 13px;
+  margin-bottom: 18px;
+}
+.tile h3 { margin-bottom: 8px; }
+.tile p { font-size: 15px; color: var(--ink-2); max-width: 62ch; }
+.tile p + p { margin-top: 8px; }
+
+/* Quick-add mock */
+.quickadd {
+  margin-top: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font-size: 15px;
+  box-shadow: var(--shadow-sm);
+}
+.quickadd .plus-glyph { color: var(--green-500); font-weight: 700; font-size: 18px; line-height: 1; }
+.quickadd .chip {
+  display: inline-block;
+  background: var(--chip-bg); color: var(--chip-ink);
+  font-weight: 600; font-size: 13.5px;
+  padding: 3px 10px; border-radius: 7px;
+  white-space: nowrap;
+}
+.quickadd .caret {
+  display: inline-block; width: 2px; height: 19px;
+  background: var(--green-500); border-radius: 1px;
+  vertical-align: text-bottom;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+  .quickadd .caret { animation: blink 1.15s step-end infinite; }
+}
+
+/* ── Sharing band ───────────────────────────────────── */
+.share-band {
+  background: var(--green-050);
+  border: 1px solid var(--green-100);
+  border-radius: 28px;
+  padding: 56px;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center;
+}
+.share-band h2 { margin-top: 4px; }
+.share-band p { font-size: 16.5px; color: var(--ink-2); margin-top: 16px; max-width: 52ch; }
+.share-list { list-style: none; margin-top: 8px; }
+.share-list li {
+  padding: 10px 0 10px 34px; position: relative;
+  font-size: 15.5px; color: var(--ink-2);
+}
+.share-list li strong { color: var(--ink); }
+.share-list li::before {
+  content: ""; position: absolute; left: 0; top: 14px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--green-500);
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="black" d="M6.5 12.2 2.8 8.5l1.4-1.4 2.3 2.3 5.3-5.3 1.4 1.4z"/></svg>') center/70% no-repeat;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="black" d="M6.5 12.2 2.8 8.5l1.4-1.4 2.3 2.3 5.3-5.3 1.4 1.4z"/></svg>') center/70% no-repeat;
+}
+
+/* ── Grove band ─────────────────────────────────────── */
 .grove {
-  background: linear-gradient(160deg, var(--green-700), var(--green-900));
-  color: #f0faf4; border-radius: 28px;
-  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px;
-  align-items: center; overflow: hidden;
-  padding: 56px 56px 0 56px;
+  position: relative;
+  background: linear-gradient(155deg, var(--green-700), var(--green-900) 78%);
+  color: #eefaf3;
+  border-radius: 28px;
+  overflow: hidden;
+  padding: 64px 56px 0;
 }
+.grove::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(560px 340px at 82% 0%, rgba(91, 212, 143, 0.16), transparent 70%),
+    radial-gradient(480px 300px at 8% 92%, rgba(91, 212, 143, 0.10), transparent 70%);
+  pointer-events: none;
+}
+.grove > * { position: relative; }
 .grove .kicker { color: var(--green-300); }
 .grove h2 { color: #fff; }
-.grove p { color: rgba(240, 250, 244, 0.85); font-size: 16.5px; margin-top: 14px; }
-.grove img { width: 100%; max-width: 340px; display: block; margin: 40px auto 0; border-radius: 28px 28px 0 0; box-shadow: 0 -10px 60px rgba(0,0,0,0.35); }
-.grove ul { margin: 18px 0 40px; padding-left: 0; list-style: none; }
-.grove li { padding: 7px 0 7px 30px; position: relative; font-size: 15.5px; color: rgba(240, 250, 244, 0.9); }
-.grove li::before {
-  content: ""; position: absolute; left: 0; top: 12px;
-  width: 16px; height: 16px; border-radius: 50%;
+.grove-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: end; }
+.grove p.grove-lede { color: rgba(238, 250, 243, 0.88); font-size: 17px; margin-top: 16px; max-width: 54ch; }
+.grove ul.grove-points { margin: 24px 0 0; padding: 0; list-style: none; }
+.grove ul.grove-points li {
+  padding: 8px 0 8px 32px; position: relative;
+  font-size: 15.5px; color: rgba(238, 250, 243, 0.92);
+}
+.grove ul.grove-points li::before {
+  content: ""; position: absolute; left: 0; top: 13px;
+  width: 17px; height: 17px; border-radius: 50%;
   background: var(--green-300);
   -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="black" d="M6.5 12.2 2.8 8.5l1.4-1.4 2.3 2.3 5.3-5.3 1.4 1.4z"/></svg>') center/contain no-repeat;
           mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="black" d="M6.5 12.2 2.8 8.5l1.4-1.4 2.3 2.3 5.3-5.3 1.4 1.4z"/></svg>') center/contain no-repeat;
 }
-
-/* Phone showcase */
-.phones { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 26px; margin-top: 46px; }
-.phone { text-align: center; }
-.phone img {
-  width: 100%; max-width: 260px; border-radius: 32px;
-  border: 1px solid var(--line); box-shadow: var(--shadow);
+.grove img {
+  width: 100%; max-width: 330px;
+  margin: 0 auto;
+  border-radius: 26px 26px 0 0;
+  box-shadow: 0 -14px 70px rgba(0, 0, 0, 0.4);
 }
-.phone figcaption { margin-top: 14px; font-size: 14.5px; font-weight: 600; color: var(--ink-2); }
+.tiers {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+  margin: 40px 0 44px;
+}
+.tier {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px 10px 14px;
+  text-align: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.tier:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.11); }
+.tier .plant { font-size: 30px; line-height: 1; display: block; }
+.tier .name { display: block; margin-top: 10px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: #fff; }
+.tier .rank { display: block; font-size: 11.5px; color: rgba(238, 250, 243, 0.62); margin-top: 2px; }
+.tiers-note {
+  text-align: center; font-size: 13.5px;
+  color: rgba(238, 250, 243, 0.68);
+  margin: -28px 0 44px;
+}
 
-/* Pricing */
-.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; margin-top: 44px; max-width: 760px; }
+/* ── Phones ─────────────────────────────────────────── */
+.phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 52px; }
+.phone { text-align: center; margin: 0; }
+.phone img {
+  width: 100%; max-width: 264px; margin: 0 auto;
+  border-radius: 34px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.phone:hover img { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.phone figcaption { margin-top: 16px; font-size: 14.5px; font-weight: 600; color: var(--ink-2); }
+.phone:nth-child(2) { transform: translateY(24px); }
+
+/* ── Pricing ────────────────────────────────────────── */
+.plans {
+  display: grid; grid-template-columns: repeat(2, minmax(280px, 400px)); gap: 24px;
+  margin-top: 48px; justify-content: center;
+}
 .plan {
   background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 32px;
+  border-radius: var(--radius); padding: 36px;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
 }
-.plan.featured { border: 2px solid var(--green-500); position: relative; }
+.plan.featured {
+  border: 2px solid var(--green-500);
+  position: relative;
+  box-shadow: var(--shadow);
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    linear-gradient(160deg, var(--green-500), var(--green-700)) border-box;
+  border-color: transparent;
+}
 .plan .badge {
-  position: absolute; top: -13px; left: 28px;
-  background: var(--green-500); color: #fff;
-  font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
-  padding: 4px 12px; border-radius: 999px;
+  position: absolute; top: -14px; left: 30px;
+  background: var(--green-600); color: #fff;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 5px 14px; border-radius: 999px;
+  box-shadow: 0 4px 12px -4px rgba(15, 99, 56, 0.5);
 }
-.plan h3 { font-size: 19px; font-weight: 700; }
-.plan .price { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; margin: 10px 0 2px; }
-.plan .price small { font-size: 15px; font-weight: 500; color: var(--ink-3); }
-.plan .trial { font-size: 13.5px; color: var(--green-600); font-weight: 600; margin-bottom: 18px; }
-.plan ul { list-style: none; margin-top: 12px; }
-.plan li { padding: 6px 0 6px 26px; position: relative; font-size: 14.5px; color: var(--ink-2); }
+.plan h3 { font-size: 20px; }
+.plan .price { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; margin: 12px 0 2px; }
+.plan .price small { font-size: 15px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
+.plan .plan-sub { font-size: 13.5px; color: var(--ink-3); min-height: 22px; }
+.plan.featured .plan-sub { color: var(--green-600); font-weight: 600; }
+@media (prefers-color-scheme: dark) { .plan.featured .plan-sub { color: var(--green-300); } }
+.plan ul { list-style: none; margin-top: 20px; }
+.plan li {
+  padding: 7px 0 7px 28px; position: relative;
+  font-size: 14.5px; color: var(--ink-2);
+}
 .plan li::before {
-  content: "✓"; position: absolute; left: 2px; color: var(--green-500); font-weight: 700;
+  content: "✓"; position: absolute; left: 2px;
+  color: var(--green-500); font-weight: 700;
+}
+.plans-note { text-align: center; font-size: 13.5px; color: var(--ink-3); margin-top: 24px; }
+
+/* ── FAQ ────────────────────────────────────────────── */
+.faq { max-width: 720px; margin: 44px auto 0; }
+.faq details {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+.faq details[open] { border-color: rgba(34, 160, 93, 0.35); }
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 22px;
+  font-size: 15.5px; font-weight: 600;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary .chev {
+  flex: none; width: 20px; height: 20px;
+  color: var(--green-500);
+  transition: transform 0.25s ease;
+}
+.faq details[open] summary .chev { transform: rotate(45deg); }
+.faq summary:hover { color: var(--green-600); }
+@media (prefers-color-scheme: dark) { .faq summary:hover { color: var(--green-300); } }
+.faq .answer { padding: 0 22px 20px; font-size: 14.5px; color: var(--ink-2); }
+.faq .answer a { color: var(--green-600); font-weight: 600; }
+@media (prefers-color-scheme: dark) { .faq .answer a { color: var(--green-300); } }
+
+/* ── Download ───────────────────────────────────────── */
+.dl-card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 56px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center;
+}
+.dl-card::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(520px 320px at 92% -10%, var(--glow-a), transparent 70%);
+  pointer-events: none;
+}
+.dl-card > * { position: relative; }
+.dl-card .lede { margin-top: 14px; }
+.dl-cta { margin-top: 28px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.dl-meta { font-size: 13.5px; color: var(--ink-3); }
+.steps { counter-reset: step; list-style: none; }
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 24px 52px;
+  font-size: 14.5px; color: var(--ink-2);
+}
+.steps li:last-child { padding-bottom: 0; }
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: -2px;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  background: var(--green-050); color: var(--green-600);
+  border: 1px solid var(--green-100);
+  border-radius: 50%;
+  font-size: 14px; font-weight: 700;
+}
+@media (prefers-color-scheme: dark) { .steps li::before { color: var(--green-300); } }
+.steps li:not(:last-child)::after {
+  content: "";
+  position: absolute; left: 17px; top: 36px; bottom: 4px;
+  width: 1px; background: var(--line);
+}
+.steps strong { color: var(--ink); }
+code {
+  background: var(--green-050); border-radius: 6px;
+  padding: 2px 7px; font-size: 0.92em;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
-/* Download */
-#download .card { padding: 40px; }
-.dl-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 22px; }
-.steps { margin-top: 26px; font-size: 14.5px; color: var(--ink-2); }
-.steps li { margin: 6px 0 6px 4px; }
-.steps { padding-left: 20px; }
-code { background: var(--green-050); border-radius: 6px; padding: 2px 7px; font-size: 0.92em; }
-
-/* Footer */
-footer { border-top: 1px solid var(--line); padding: 36px 0 48px; margin-top: 40px; }
-.foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+/* ── Footer ─────────────────────────────────────────── */
+footer { border-top: 1px solid var(--line); padding: 44px 0 56px; }
+.foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.foot-brand { display: flex; align-items: center; gap: 10px; }
+.foot-brand img { width: 28px; height: 28px; border-radius: 7px; }
+.foot-brand span { font-size: 15px; font-weight: 700; }
 .foot p, .foot a { font-size: 13.5px; color: var(--ink-3); text-decoration: none; }
 .foot a:hover { color: var(--ink); }
-.foot .links { display: flex; gap: 22px; }
+.foot .links { display: flex; gap: 24px; }
 
-@media (max-width: 780px) {
-  .grove { grid-template-columns: 1fr; padding: 40px 28px 0; }
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .bento { grid-template-columns: 1fr; }
+  .share-band, .dl-card { grid-template-columns: 1fr; padding: 40px 32px; gap: 32px; }
+  .grove { padding: 48px 32px 0; }
+  .grove-grid { grid-template-columns: 1fr; gap: 8px; }
+  .grove img { margin-top: 32px; }
+  .tiers { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .tier { padding: 14px 6px 12px; }
+  .tier .plant { font-size: 24px; }
+  .tier .name { font-size: 11px; }
+  .tier .rank { display: none; }
+  .phones { grid-template-columns: 1fr; gap: 40px; }
+  .phone:nth-child(2) { transform: none; }
+  .plans { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  section { padding: 68px 0; }
   .nav-links a.hide-sm { display: none; }
-  .hero-shot { margin-bottom: -60px; }
-  .hero-spacer { height: 100px; }
+  .hero { padding-top: 56px; }
+  .hero-shot { margin: 48px auto -70px; padding: 0 16px; }
+  .hero-spacer { height: 118px; }
+  .titlebar .title { display: none; }
+  .tile { padding: 26px 22px; }
+  .share-band, .dl-card { padding: 32px 22px; border-radius: 22px; }
+  .grove { padding: 40px 22px 0; border-radius: 22px; }
+  .tiers { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin: 32px 0 36px; }
+  .tiers-note { margin: -22px 0 36px; }
+  .plan { padding: 28px 24px; }
+  .faq summary { padding: 16px 18px; }
+  .faq .answer { padding: 0 18px 18px; }
+  .quickadd { font-size: 13.5px; padding: 12px 14px; gap: 7px; }
+  .quickadd .chip { font-size: 12px; }
 }
 </style>
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
 
-<div class="wrap">
-  <nav>
-    <a class="brand" href="#"><img src="assets/icon-192.png" alt="Tempo icon"><span>Tempo</span></a>
-    <div class="nav-links">
-      <a class="hide-sm" href="#features">Features</a>
-      <a class="hide-sm" href="#grove">The Grove</a>
-      <a class="hide-sm" href="#pricing">Pricing</a>
-      <a class="btn" href="#download">Download</a>
-    </div>
-  </nav>
+<div class="nav-shell" id="navShell">
+  <div class="wrap">
+    <nav aria-label="Main">
+      <a class="brand" href="#"><img src="assets/icon-192.png" alt="Tempo app icon"><span>Tempo</span></a>
+      <div class="nav-links">
+        <a class="hide-sm" href="#features">Features</a>
+        <a class="hide-sm" href="#grove">The Grove</a>
+        <a class="hide-sm" href="#pricing">Pricing</a>
+        <a class="hide-sm" href="#faq">FAQ</a>
+        <a class="btn" href="#download">Download</a>
+      </div>
+    </nav>
+  </div>
 </div>
 
 <header class="hero">
   <div class="wrap">
-    <img class="hero-icon" src="assets/icon-192.png" alt="">
+    <span class="hero-badge"><span class="dot" aria-hidden="true"></span>Free on Mac · iPhone coming to the App&nbsp;Store</span>
     <h1>Get it done.<br><em>Grow your grove.</em></h1>
-    <p class="lede">Tempo is the calm, complete home for everything you mean to do —
-    tasks, calendar, habits and focus, on Mac and iPhone, together with your partner.</p>
+    <p class="lede">Tempo brings your tasks, calendar, habits and focus time into one calm,
+    fast app — and every minute of real focus grows a little forest of its own.</p>
     <div class="hero-ctas">
-      <a class="btn" href="Tempo.dmg" download>
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L11 17.4 5.3 11.7l1.4-1.4L10 13.6V3h2zM5 19h14v2H5v-2z"/></svg>
+      <a class="btn big" href="Tempo.dmg" download>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L11 17.4 5.3 11.7l1.4-1.4L10 13.6V3h2zM5 19h14v2H5v-2z"/></svg>
         Download for Mac
       </a>
-      <a class="btn ghost" href="#iphone">iPhone — coming to the App&nbsp;Store</a>
+      <a class="btn ghost big" href="#grove">Meet the Grove</a>
     </div>
-    <p class="hero-note">Free download · macOS 15 or later · Tempo Plus optional</p>
+    <p class="hero-note">Free download · macOS 15 or later · No account required</p>
   </div>
-  <div class="hero-shot"><img src="assets/mac-grove.png" alt="Tempo on Mac showing the Grove focus timer"></div>
+  <div class="hero-shot">
+    <div class="window">
+      <div class="titlebar" aria-hidden="true">
+        <span class="light r"></span><span class="light y"></span><span class="light g"></span>
+        <span class="title">Tempo — Grove</span>
+      </div>
+      <img src="assets/mac-grove.png" alt="Tempo on Mac in dark mode, showing a Grove focus session with a growing plant, session timer and focus stats">
+    </div>
+  </div>
 </header>
 <div class="hero-spacer"></div>
 
 <section id="features">
   <div class="wrap">
-    <span class="kicker">Everything in its place</span>
-    <h2>One app for the whole day</h2>
-    <p class="section-lede">No juggling — your tasks, calendars, habits and focus time live together and work together.</p>
-    <div class="grid">
-      <div class="card"><div class="emoji">⚡️</div><h3>Tasks that understand you</h3>
-        <p>Type “Pay rent tomorrow 5pm #bills !high every month” — the date, time, tag, priority and repeat rule are filed before you finish the sentence. Subtasks, reminders, templates and smart lists included.</p></div>
-      <div class="card"><div class="emoji">📅</div><h3>Your whole calendar</h3>
-        <p>Apple, Google and Notion calendars beside your tasks in month, week and agenda views. Drag to reschedule on Mac, glance and go on iPhone.</p></div>
-      <div class="card"><div class="emoji">🔁</div><h3>Habits that stick</h3>
-        <p>Flexible schedules, gentle reminders, streak flames, weekly trends and a month heatmap that makes consistency visible.</p></div>
-      <div class="card"><div class="emoji">💚</div><h3>Better together</h3>
-        <p>Connect with your partner and share exactly what you choose. Assign tasks, comment, and follow the shared activity feed — synced in real time.</p></div>
-      <div class="card"><div class="emoji">🧩</div><h3>Everywhere you look</h3>
-        <p>Home-screen and lock-screen widgets on iPhone. Desktop widgets and a menu-bar command center on Mac — add tasks without opening the app.</p></div>
-      <div class="card"><div class="emoji">✈️</div><h3>Offline first</h3>
-        <p>Your data lives on your device and syncs when you're back. No connection required, no spinners in your way.</p></div>
+    <div class="section-head reveal">
+      <span class="kicker">Everything in its place</span>
+      <h2>One app for the whole day</h2>
+      <p class="lede">No juggling between five apps. Your tasks, calendars, habits and
+      focus time live together — and work together.</p>
+    </div>
+
+    <div class="bento">
+      <div class="tile wide reveal">
+        <span class="emoji" aria-hidden="true">⚡️</span>
+        <h3>Type it like you'd say it</h3>
+        <p>Tempo's quick add reads natural language, so a whole task — date, time, tag,
+        priority, repeat rule — files itself before you finish the sentence. Subtasks,
+        reminders and smart lists take it from there.</p>
+        <div class="quickadd" aria-label="Example: typing “Pay rent tomorrow 5pm #bills !high every month” files the date, time, tag, priority and repeat rule automatically">
+          <span class="plus-glyph" aria-hidden="true">＋</span>
+          <span>Pay rent</span>
+          <span class="chip">tomorrow 5pm</span>
+          <span class="chip">#bills</span>
+          <span class="chip">!high</span>
+          <span class="chip">every month</span>
+          <span class="caret" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="tile reveal">
+        <span class="emoji" aria-hidden="true">📅</span>
+        <h3>Your whole calendar</h3>
+        <p>Apple Calendar sits beside your tasks in month, week and agenda views — drag to
+        reschedule on Mac, glance and go on iPhone. Add Google Calendar and Notion with Plus.</p>
+      </div>
+
+      <div class="tile reveal" style="--d: 0.08s">
+        <span class="emoji" aria-hidden="true">🔁</span>
+        <h3>Habits that stick</h3>
+        <p>Flexible schedules, gentle reminders, streak flames and a month heatmap that
+        makes consistency something you can actually see.</p>
+      </div>
+
+      <div class="tile reveal">
+        <span class="emoji" aria-hidden="true">🧩</span>
+        <h3>Everywhere you look</h3>
+        <p>Home-screen and lock-screen widgets on iPhone. Desktop widgets and a menu-bar
+        command center on Mac — capture a task without ever opening the app.</p>
+      </div>
+
+      <div class="tile reveal" style="--d: 0.08s">
+        <span class="emoji" aria-hidden="true">🔒</span>
+        <h3>Private by default</h3>
+        <p>Your data lives on your device and works fully offline. Cloud sync is optional,
+        only there when you turn it on — no connection required, no spinners in your way.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sharing" style="padding-top: 0;">
+  <div class="wrap">
+    <div class="share-band reveal">
+      <div>
+        <span class="kicker">Plan it together</span>
+        <h2>For the person you plan with</h2>
+        <p>Your family, your partner, or anyone you run life alongside — connect with the
+        person you plan with and keep the moving parts in one place. You choose exactly
+        what's shared; everything else stays yours.</p>
+      </div>
+      <ul class="share-list">
+        <li><strong>A shared calendar</strong> — everyone's week on one screen, so plans stop living in three different threads.</li>
+        <li><strong>Shared lists</strong> — groceries, chores, the trip, the renovation. Either of you adds, both of you see it.</li>
+        <li><strong>Assign &amp; comment</strong> — hand a task over, leave a note, and watch changes land in real time.</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <section id="grove" style="padding-top: 0;">
   <div class="wrap">
-    <div class="grove">
-      <div>
-        <span class="kicker">The Grove</span>
-        <h2>Focus, planted</h2>
-        <p>Every focus session grows a plant. Stay with it and your grove gets bigger;
-        give up early and the plant withers. Out of nothing but your own attention,
-        a forest takes shape.</p>
-        <ul>
-          <li>Link sessions to tasks, subjects and projects</li>
-          <li>Earn points — unlock new plants and scenes</li>
-          <li>Streaks with protection that isn't punishing</li>
-          <li>Daily, weekly and all-time focus stats</li>
-        </ul>
+    <div class="grove reveal">
+      <div class="grove-grid">
+        <div style="padding-bottom: 48px;">
+          <span class="kicker">The Grove</span>
+          <h2>Focus, planted</h2>
+          <p class="grove-lede">Start a focus session and a plant starts growing. Stay with
+          it and it joins your grove; give up early and it withers. Out of nothing but your
+          own attention, a forest takes shape.</p>
+          <ul class="grove-points">
+            <li>Finished sessions earn points — spend them in a shop of 28 plant species</li>
+            <li>Streak shields protect a good run from one bad day</li>
+            <li>Achievements, ambient sound, and daily, weekly and all-time stats</li>
+            <li>Really can't wait for that one plant? Unlock it instantly</li>
+          </ul>
+        </div>
+        <img src="assets/iphone-grove.png" alt="The Grove focus timer on iPhone, with a plant growing during an active session">
       </div>
-      <img src="assets/iphone-grove.png" alt="The Grove focus timer on iPhone">
+      <div class="tiers" role="list" aria-label="Plant shop tiers, from common to rare">
+        <div class="tier" role="listitem"><span class="plant" aria-hidden="true">🌼</span><span class="name">Meadow</span><span class="rank">Tier I</span></div>
+        <div class="tier" role="listitem"><span class="plant" aria-hidden="true">🌹</span><span class="name">Garden</span><span class="rank">Tier II</span></div>
+        <div class="tier" role="listitem"><span class="plant" aria-hidden="true">🌳</span><span class="name">Woodland</span><span class="rank">Tier III</span></div>
+        <div class="tier" role="listitem"><span class="plant" aria-hidden="true">🌲</span><span class="name">Ancient</span><span class="rank">Tier IV</span></div>
+        <div class="tier" role="listitem"><span class="plant" aria-hidden="true">🪷</span><span class="name">Mythic</span><span class="rank">Tier V</span></div>
+      </div>
+      <p class="tiers-note">28 species across five tiers — earn them with focus, or treat yourself to the one you can't wait for.</p>
     </div>
   </div>
 </section>
 
-<section id="iphone" style="padding-top: 10px;">
+<section id="iphone" style="padding-top: 0;">
   <div class="wrap">
-    <span class="kicker">On your iPhone</span>
-    <h2>The same calm, pocket-sized</h2>
-    <p class="section-lede">The full app — tasks, calendar, habits, Grove and sync — is built for iPhone and arrives on the App Store soon.</p>
+    <div class="section-head center reveal">
+      <span class="kicker">On your iPhone</span>
+      <h2>The same calm, pocket-sized</h2>
+      <p class="lede" style="margin-left: auto; margin-right: auto;">The full app — tasks, calendar,
+      habits, the Grove and sync — is built for iPhone and coming to the App&nbsp;Store.</p>
+    </div>
     <div class="phones">
-      <figure class="phone"><img src="assets/iphone-tasks.png" alt="Tasks on iPhone"><figcaption>Today, at a glance</figcaption></figure>
-      <figure class="phone"><img src="assets/iphone-calendar.png" alt="Calendar on iPhone"><figcaption>Month + agenda</figcaption></figure>
-      <figure class="phone"><img src="assets/iphone-habits.png" alt="Habits on iPhone"><figcaption>Habits & streaks</figcaption></figure>
+      <figure class="phone reveal"><img src="assets/iphone-tasks.png" alt="Tempo's task list on iPhone showing today's tasks with tags and priorities"><figcaption>Today, at a glance</figcaption></figure>
+      <figure class="phone reveal" style="--d: 0.1s"><img src="assets/iphone-calendar.png" alt="Tempo's calendar on iPhone showing a month view with an agenda below"><figcaption>Month + agenda</figcaption></figure>
+      <figure class="phone reveal" style="--d: 0.2s"><img src="assets/iphone-habits.png" alt="Tempo's habits screen on iPhone with streaks and completion heatmaps"><figcaption>Habits &amp; streaks</figcaption></figure>
     </div>
   </div>
 </section>
 
-<section id="pricing" style="padding-top: 20px;">
+<section id="pricing">
   <div class="wrap">
-    <span class="kicker">Pricing</span>
-    <h2>Free to use. Plus to connect.</h2>
-    <p class="section-lede">Tempo's core is free forever — no time limits, no crippled features.</p>
+    <div class="section-head center reveal">
+      <span class="kicker">Pricing</span>
+      <h2>Free to use. Plus to connect.</h2>
+      <p class="lede" style="margin-left: auto; margin-right: auto;">Tempo's core is free
+      forever — no time limits, no crippled features. Plus adds the connected layer.</p>
+    </div>
     <div class="plans">
-      <div class="plan">
+      <div class="plan reveal">
         <h3>Free</h3>
         <div class="price">$0</div>
-        <div class="trial">&nbsp;</div>
+        <p class="plan-sub">Forever, on your Mac</p>
         <ul>
           <li>Unlimited tasks, lists and tags</li>
           <li>Natural-language quick add</li>
           <li>Apple Calendar integration</li>
-          <li>Habits with streaks and trends</li>
+          <li>Habits with streaks and heatmaps</li>
           <li>The full Grove focus system</li>
-          <li>Widgets and menu-bar tools</li>
+          <li>Widgets and the menu-bar command center</li>
         </ul>
       </div>
-      <div class="plan featured">
-        <span class="badge">30 days free</span>
+      <div class="plan featured reveal" style="--d: 0.1s">
+        <span class="badge">30-day free trial</span>
         <h3>Tempo Plus</h3>
-        <div class="price">$1.99 <small>/ month</small></div>
-        <div class="trial">Try everything free for 30 days</div>
+        <div class="price">US$1.99 <small>/ month</small></div>
+        <p class="plan-sub">Try everything free for 30 days</p>
         <ul>
-          <li>Cloud sync across devices</li>
-          <li>Partner sharing & activity feed</li>
-          <li>Google Calendar & Notion</li>
-          <li>Task templates & saved filters</li>
+          <li>Everything in Free</li>
+          <li>Cloud sync across your devices</li>
+          <li>Sharing — a shared calendar &amp; shared lists</li>
+          <li>Google Calendar &amp; Notion</li>
+          <li>Task templates &amp; saved filters</li>
           <li>Premium Grove scenes</li>
         </ul>
       </div>
     </div>
+    <p class="plans-note reveal">No ads, ever. Cancel anytime and your data stays on your device.</p>
   </div>
 </section>
 
-<section id="download" style="padding-top: 20px;">
+<section id="faq" style="padding-top: 0;">
   <div class="wrap">
-    <div class="card">
-      <span class="kicker">Download</span>
-      <h2>Get Tempo for Mac</h2>
-      <p class="section-lede">Prefer not to wait for the App Store? Download directly — free.</p>
-      <div class="dl-row">
-        <a class="btn" href="Tempo.dmg" download>
-          <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L11 17.4 5.3 11.7l1.4-1.4L10 13.6V3h2zM5 19h14v2H5v-2z"/></svg>
-          Download Tempo.dmg
-        </a>
+    <div class="section-head center reveal">
+      <span class="kicker">Questions</span>
+      <h2>The honest answers</h2>
+    </div>
+    <div class="faq reveal">
+      <details>
+        <summary>Is Tempo really free?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <div class="answer">Yes. The Mac app is a free download, and the free tier isn't a
+        demo: unlimited tasks, lists and tags, natural-language quick add, Apple Calendar,
+        habits with streaks and heatmaps, the full Grove focus system, widgets and the
+        menu-bar command center. Plus is optional — you only need it for the connected features.</div>
+      </details>
+      <details>
+        <summary>What does Tempo Plus add?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <div class="answer">Cloud sync across your devices, sharing with the person you plan
+        with (a shared calendar and shared lists), Google Calendar and Notion integrations,
+        task templates and saved filters, and premium Grove scenes. It's US$1.99 a month,
+        and every new account gets a 30-day free trial of the whole thing.</div>
+      </details>
+      <details>
+        <summary>Why the right-click-to-open step on first launch?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <div class="answer">This direct download is signed with a developer certificate
+        rather than distributed through the App Store, so macOS shows a one-time notice.
+        Right-click Tempo, choose <strong>Open</strong>, then <strong>Open</strong> again —
+        after that it launches normally, forever.</div>
+      </details>
+      <details>
+        <summary>When is the iPhone app coming?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <div class="answer">It's built — tasks, calendar, habits, the Grove and widgets are
+        all running on iPhone today — and it's coming to the App Store. With Plus sync
+        turned on, your Mac and iPhone stay perfectly in step from day one.</div>
+      </details>
+      <details>
+        <summary>Where does my data live?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <div class="answer">On your device. Tempo works fully offline, and nothing leaves
+        your Mac unless you turn on cloud sync or sharing — both optional, both under your
+        control. The details are in our <a href="privacy.html">privacy policy</a>.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="download" style="padding-top: 0;">
+  <div class="wrap">
+    <div class="dl-card reveal">
+      <div>
+        <span class="kicker">Download</span>
+        <h2>Get Tempo for Mac</h2>
+        <p class="lede">Free, direct, about a minute from click to first task.</p>
+        <div class="dl-cta">
+          <a class="btn big" href="Tempo.dmg" download>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L11 17.4 5.3 11.7l1.4-1.4L10 13.6V3h2zM5 19h14v2H5v-2z"/></svg>
+            Download Tempo.dmg
+          </a>
+          <span class="dl-meta">macOS 15 or later</span>
+        </div>
       </div>
       <ol class="steps">
-        <li>Open the DMG and drag <strong>Tempo</strong> into <strong>Applications</strong>.</li>
-        <li>First launch only: <strong>right-click Tempo → Open → Open</strong>. macOS shows a one-time
-        notice because this direct build is signed with a developer certificate rather than
-        distributed through the App Store. It opens normally ever after.</li>
-        <li>That's it — create a sync account in <code>Settings → Sync</code> whenever you want your
-        data on more than one device.</li>
+        <li>Open the download and <strong>slide Tempo into Applications</strong> — the
+        installer window shows you the way. That's the whole install.</li>
+        <li>First launch only: <strong>right-click Tempo → Open → Open</strong>. macOS shows a
+        one-time notice because this build is developer-signed rather than App Store-distributed.
+        It opens normally ever after.</li>
+        <li>That's it. Create a sync account in <code>Settings → Sync</code> whenever you
+        want your data on more than one device.</li>
       </ol>
     </div>
   </div>
@@ -361,6 +858,10 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 48px; margin-top: 40
 
 <footer>
   <div class="wrap foot">
+    <div class="foot-brand">
+      <img src="assets/icon-192.png" alt="">
+      <span>Tempo</span>
+    </div>
     <p>© 2026 Tempo. Made with care (and a growing grove).</p>
     <div class="links">
       <a href="privacy.html">Privacy</a>
@@ -368,6 +869,37 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 48px; margin-top: 40
     </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Sticky nav: add a hairline + shadow once the page scrolls. */
+  var shell = document.getElementById("navShell");
+  var onScroll = function () {
+    shell.classList.toggle("scrolled", window.scrollY > 8);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* Scroll reveal — skipped entirely for reduced-motion users. */
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var targets = document.querySelectorAll(".reveal");
+  if (reduced || !("IntersectionObserver" in window)) {
+    targets.forEach(function (el) { el.classList.add("in"); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -48px 0px" });
+  targets.forEach(function (el) { io.observe(el); });
+})();
+</script>
 
 </body>
 </html>
