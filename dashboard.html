@@ -431,6 +431,13 @@ td .muted { color: var(--ink-3); }
           </div>
           <div class="chart-wrap chart-b" id="chartChanges"><div class="spin">Loading…</div></div>
         </div>
+        <div class="panel">
+          <div class="chart-head">
+            <h3>New installs</h3>
+            <span class="peak" id="peakInstalls"></span>
+          </div>
+          <div class="chart-wrap chart-a" id="chartInstalls"><div class="spin">Loading…</div></div>
+        </div>
       </div>
     </section>
 
@@ -776,6 +783,7 @@ td .muted { color: var(--ink-3); }
   function renderCharts(s) {
     renderChart("chartSignups", "peakSignups", s.signups_by_day, "a", "No signups in the last 30 days.");
     renderChart("chartChanges", "peakChanges", s.changes_by_day, "b", "No sync activity in the last 30 days.");
+    renderChart("chartInstalls", "peakInstalls", s.installs_by_day, "a", "No new installs in the last 30 days.");
   }
 
   /* ── Rendering: controls ────────────────────────── */
