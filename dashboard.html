@@ -537,9 +537,9 @@ td .muted { color: var(--ink-3); }
 (function () {
   "use strict";
 
-  var SUPABASE_URL = "https://kngjoqgnqmkvrotaesxl.supabase.co";
-  var ANON_KEY = "sb_publishable_JhOy3fwl1WsauzERXaTySA_qj0VgktA";
+  var API_URL = "https://tempo-api-7a9482.azurewebsites.net";
   var SS_TOKEN = "tempo_dev_token";
+  var SS_REFRESH = "tempo_dev_refresh";
   var SS_EMAIL = "tempo_dev_email";
 
   var lastStats = null;
@@ -570,11 +570,16 @@ td .muted { color: var(--ink-3); }
     return d.toLocaleDateString(undefined, { day: "numeric", month: "short" });
   }
 
-  /* ── Network ────────────────────────────────────── */
+  /* ── Network (Tempo Cloud API on Azure) ─────────── */
+  function storeSession(data) {
+    sessionStorage.setItem(SS_TOKEN, data.access_token);
+    if (data.refresh_token) sessionStorage.setItem(SS_REFRESH, data.refresh_token);
+  }
+
   function signIn(email, password) {
-    return fetch(SUPABASE_URL + "/auth/v1/token?grant_type=password", {
+    return fetch(API_URL + "/api/auth/signin", {
       method: "POST",
-      headers: { "apikey": ANON_KEY, "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email, password: password })
     }).then(function (res) {
       if (!res.ok) {
@@ -585,25 +590,53 @@ td .muted { color: var(--ink-3); }
       if (!data || !data.access_token) {
         throw new Error("Sign-in succeeded but no session was returned. Please try again.");
       }
+      return data;
+    });
+  }
+
+  /* Access tokens last an hour; trade the rotating refresh token for a new
+     session so an open tab survives past that. */
+  function refreshSession() {
+    var refresh = sessionStorage.getItem(SS_REFRESH);
+    if (!refresh) return Promise.reject(new Error("Signed out."));
+    return fetch(API_URL + "/api/auth/refresh", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: refresh })
+    }).then(function (res) {
+      if (!res.ok) throw new Error("Signed out.");
+      return res.json();
+    }).then(function (data) {
+      if (!data || !data.access_token) throw new Error("Signed out.");
+      storeSession(data);
       return data.access_token;
     });
   }
 
-  function rpc(name, body) {
-    return fetch(SUPABASE_URL + "/rest/v1/rpc/" + name, {
-      method: "POST",
+  function api(method, path, body, isRetry) {
+    return fetch(API_URL + "/api/" + path, {
+      method: method,
       headers: {
-        "apikey": ANON_KEY,
         "Authorization": "Bearer " + tokenOf(),
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(body || {})
+      body: body == null ? undefined : JSON.stringify(body)
     }).then(function (res) {
       return res.text().then(function (text) {
         var data = null;
         if (text) { try { data = JSON.parse(text); } catch (e) { data = text; } }
         if (!res.ok) {
-          var msg = (data && data.message) ? data.message
+          if (res.status === 401 && !isRetry) {
+            // Expired access token — refresh once and replay the request.
+            return refreshSession().then(function () {
+              return api(method, path, body, true);
+            }, function () {
+              var expired = new Error("Your session expired. Please sign in again.");
+              expired.status = 401;
+              throw expired;
+            });
+          }
+          var msg = (data && data.error) ? data.error
                   : (typeof data === "string" && data ? data : "Request failed (" + res.status + ").");
           var err = new Error(msg);
           err.status = res.status;
@@ -629,6 +662,7 @@ td .muted { color: var(--ink-3); }
   }
   function forceSignOut(message, kind) {
     sessionStorage.removeItem(SS_TOKEN);
+    sessionStorage.removeItem(SS_REFRESH);
     sessionStorage.removeItem(SS_EMAIL);
     lastStats = null;
     showAuth(message, kind);
@@ -836,7 +870,7 @@ td .muted { color: var(--ink-3); }
 
   function loadUsers() {
     $("usersBody").innerHTML = '<tr><td colspan="8"><span class="spin">Loading…</span></td></tr>';
-    return rpc("admin_list_users", { max_rows: 200 })
+    return api("GET", "console/users?limit=200")
       .then(renderUsers)
       .catch(function (e) {
         $("usersBody").innerHTML = '<tr><td colspan="8"><span class="flag no">'
@@ -850,14 +884,14 @@ td .muted { color: var(--ink-3); }
     banner.textContent = "";
     setLoadingUI(true);
 
-    return rpc("admin_stats", {}).then(function (stats) {
+    return api("GET", "console/stats").then(function (stats) {
       lastStats = stats || {};
       renderStats(lastStats);
       renderControls(lastStats);
       renderCharts(lastStats);
       return loadUsers();
     }).catch(function (e) {
-      if (e && /not authorized/i.test(e.message || "")) {
+      if (e && (e.status === 403 || /not an admin/i.test(e.message || ""))) {
         forceSignOut("This account is not an admin.", "err");
         return;
       }
@@ -884,8 +918,8 @@ td .muted { color: var(--ink-3); }
     }
     btn.disabled = true; btn.textContent = "Signing in…";
     setMsg($("authMsg"), "", "");
-    signIn(email, password).then(function (accessToken) {
-      sessionStorage.setItem(SS_TOKEN, accessToken);
+    signIn(email, password).then(function (data) {
+      storeSession(data);
       sessionStorage.setItem(SS_EMAIL, email);
       $("password").value = "";
       showApp();
@@ -901,22 +935,26 @@ td .muted { color: var(--ink-3); }
     var ann = $("announceInput").value.trim();
     var minv = $("minVerInput").value.trim();
     var body = {
-      p_free_for_all: $("freeToggle").checked,
-      p_announcement: ann === "" ? null : ann,
-      p_min_version: minv === "" ? null : minv
+      free_for_all: $("freeToggle").checked,
+      announcement: ann,
+      min_version: minv
     };
     btn.disabled = true; btn.textContent = "Saving…";
     setMsg($("configMsg"), "", "");
-    rpc("admin_set_config", body).then(function () {
+    api("POST", "console/config", body).then(function () {
       setMsg($("configMsg"), "Saved.", "ok");
       // keep lastStats in sync with what we just set
       if (lastStats) {
-        lastStats.plus_free_for_all = body.p_free_for_all;
-        lastStats.announcement = body.p_announcement;
-        lastStats.min_version = body.p_min_version;
+        lastStats.plus_free_for_all = body.free_for_all;
+        lastStats.announcement = ann === "" ? null : ann;
+        lastStats.min_version = minv === "" ? null : minv;
         renderStats(lastStats);
       }
     }).catch(function (e) {
+      if (e && e.status === 401) {
+        forceSignOut("Your session expired. Please sign in again.", "err");
+        return;
+      }
       setMsg($("configMsg"), (e && e.message) ? e.message : "Could not save. Please try again.", "err");
     }).then(function () {
       btn.disabled = false; btn.textContent = "Save changes";
@@ -932,23 +970,24 @@ td .muted { color: var(--ink-3); }
     var gBtn = $("grantBtn"), rBtn = $("revokeBtn");
     gBtn.disabled = true; rBtn.disabled = true;
     setMsg($("grantMsg"), "", "");
-    rpc("admin_grant_plus", { p_email: email, p_granted: granted }).then(function (result) {
-      var msg, kind = "ok";
-      if (result === "no account with that email") { msg = "No account with that email."; kind = "err"; }
-      else if (result === "granted") { msg = "Plus granted to " + email + "."; }
-      else if (result === "revoked") { msg = "Plus revoked for " + email + "."; }
-      else { msg = String(result); }
+    api("POST", "console/grant", { email: email, granted: granted }).then(function (result) {
+      var msg = (result && result.message) ? result.message : "Done.";
+      var kind = /no account/i.test(msg) ? "err" : "ok";
       setMsg($("grantMsg"), msg, kind);
       if (kind === "ok") {
         // refresh the table and the plus-grants stat
         loadUsers();
-        rpc("admin_stats", {}).then(function (stats) {
+        api("GET", "console/stats").then(function (stats) {
           lastStats = stats || lastStats;
           renderStats(lastStats);
           renderCharts(lastStats);
         }).catch(function () { /* non-fatal */ });
       }
     }).catch(function (e) {
+      if (e && e.status === 401) {
+        forceSignOut("Your session expired. Please sign in again.", "err");
+        return;
+      }
       setMsg($("grantMsg"), (e && e.message) ? e.message : "Could not update Plus. Please try again.", "err");
     }).then(function () {
       gBtn.disabled = false; rBtn.disabled = false;
