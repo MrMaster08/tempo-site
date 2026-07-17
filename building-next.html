@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building next — Tempo</title>
+<meta name="description" content="What's shipped, what's being built, and what's planned for Tempo — in the developer's own words. No dates, no vaporware: nothing is marketed before it ships.">
+<meta property="og:title" content="Building next — Tempo">
+<meta property="og:description" content="What's shipped, what's being built, and what's planned for Tempo — straight from the developer. Nothing is marketed before it ships.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mrmaster08.github.io/tempo-site/building-next.html">
+<meta property="og:image" content="https://mrmaster08.github.io/tempo-site/assets/icon-512.png">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0C120E" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FAF9F3" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Tokens — dark is the approved default; light overrides below (matches index.html). */
+:root {
+  color-scheme: dark;
+  --paper: #0C120E;
+  --ink: #EDF3EC;
+  --ink-2: #AEC0B4;
+  --ink-3: #8FA396;
+  --line: rgba(237, 243, 236, 0.15);
+  --line-soft: rgba(237, 243, 236, 0.09);
+  --eyebrow: #3FBE79;
+  --head-accent: #3FBE79;
+  --card: #131A15;
+  --btn-bg: #2FA968;
+  --btn-ink: #04281C;
+  --btn-hover: #3FBE79;
+  --chip-grn-bg: rgba(47, 169, 104, 0.16);  --chip-grn-ink: #83DFA9;
+  --chip-amb-bg: rgba(232, 184, 75, 0.14);  --chip-amb-ink: #EACD84;
+  --chip-sage-bg: rgba(237, 243, 236, 0.08);--chip-sage-ink: #B9CBBE;
+  --nav-bg: rgba(12, 18, 14, 0.74);
+  --focus: #3FBE79;
+  --sel-bg: rgba(47, 169, 104, 0.34);
+  --card-shadow: 0 24px 48px -24px rgba(11, 61, 36, 0.3);
+  --grn: #2FA968;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --paper: #FAF9F3;
+    --ink: #0F1F16;
+    --ink-2: #43584C;
+    --ink-3: #57685D;
+    --line: rgba(15, 31, 22, 0.13);
+    --line-soft: rgba(15, 31, 22, 0.08);
+    --eyebrow: #17753F;
+    --head-accent: #17753F;
+    --card: #FFFFFF;
+    --btn-bg: #17753F;
+    --btn-ink: #FFFFFF;
+    --btn-hover: #0B3D24;
+    --chip-grn-bg: #E3F1E8;  --chip-grn-ink: #17753F;
+    --chip-amb-bg: #F6ECD2;  --chip-amb-ink: #745510;
+    --chip-sage-bg: #E9F0EA; --chip-sage-ink: #3D5A48;
+    --nav-bg: rgba(250, 249, 243, 0.82);
+    --focus: #17753F;
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--paper); color: var(--ink);
+  line-height: 1.65; font-size: 16px;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+::selection { background: var(--sel-bg); }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 28px; }
+
+.navbar {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+  border-bottom: 1px solid var(--line-soft);
+}
+.navbar nav { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; }
+.navwrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.brand span { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-links a:not(.btn) {
+  font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+  text-decoration: none; padding: 8px 13px; border-radius: 8px;
+  transition: color 0.15s ease;
+}
+.nav-links a:not(.btn):hover { color: var(--ink); }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--btn-bg); color: var(--btn-ink);
+  padding: 9px 19px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: background 0.22s ease;
+  margin-left: 10px;
+}
+.btn:hover { background: var(--btn-hover); }
+
+header.page { padding: clamp(72px, 9vw, 110px) 0 clamp(40px, 5vw, 56px); }
+.eyebrow {
+  display: block; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--eyebrow); margin-bottom: 20px;
+}
+h1 {
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: clamp(38px, 6.4vw, 60px); line-height: 1.04;
+  letter-spacing: -0.025em; font-weight: 600; text-wrap: balance;
+}
+.lede { margin-top: 24px; font-size: 18px; line-height: 1.65; color: var(--ink-2); max-width: 58ch; }
+.lede strong { color: var(--ink); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+.status {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 13px; border-radius: 999px; white-space: nowrap;
+}
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.status.shipped  { background: var(--chip-grn-bg);  color: var(--chip-grn-ink); }
+.status.building { background: var(--chip-amb-bg);  color: var(--chip-amb-ink); }
+.status.planned  { background: var(--chip-sage-bg); color: var(--chip-sage-ink); }
+
+main { padding-bottom: clamp(80px, 10vw, 120px); }
+.entry {
+  border: 1px solid var(--line); border-radius: 20px;
+  background: var(--card); box-shadow: var(--card-shadow);
+  padding: 30px 32px 28px; margin-top: 22px;
+}
+.entry-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
+.entry h2 {
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: clamp(22px, 3vw, 27px); line-height: 1.15;
+  letter-spacing: -0.015em; font-weight: 600; text-wrap: balance;
+}
+.entry p { color: var(--ink-2); font-size: 15.5px; margin-top: 10px; }
+.entry p strong { color: var(--ink); }
+.entry ul { margin: 14px 0 2px; padding-left: 0; list-style: none; }
+.entry li {
+  position: relative; padding-left: 24px; margin-top: 9px;
+  color: var(--ink-2); font-size: 15px;
+}
+.entry li::before {
+  content: ""; position: absolute; left: 2px; top: 0.62em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--grn); opacity: 0.75;
+}
+.entry li strong { color: var(--ink); font-weight: 600; }
+
+.principles { margin-top: clamp(56px, 7vw, 76px); }
+.principles h2 {
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -0.02em; font-weight: 600;
+}
+.principles > p { color: var(--ink-2); margin-top: 12px; font-size: 15.5px; }
+.plist { list-style: none; margin-top: 22px; }
+.plist li {
+  border-top: 1px solid var(--line-soft); padding: 16px 2px;
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: 19px; font-weight: 500; letter-spacing: -0.01em;
+}
+.plist li span { display: block; margin-top: 4px; font-family: "Inter", sans-serif; font-size: 13.5px; color: var(--ink-3); font-weight: 400; }
+
+.pagefoot { border-top: 1px solid var(--line); padding: 36px 0 48px; }
+.pagefoot .row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--ink-3); }
+.pagefoot a { color: var(--ink-2); text-decoration: none; }
+.pagefoot a:hover { color: var(--ink); }
+.pagefoot .links { display: flex; gap: 18px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="navwrap">
+    <nav aria-label="Main">
+      <a class="brand" href="index.html"><img src="assets/icon-192.png" alt="Tempo app icon"><span>Tempo</span></a>
+      <div class="nav-links">
+        <a href="shared-life-planner.html">What is a shared life planner?</a>
+        <a class="btn" href="Tempo.dmg" download>Download</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<header class="page">
+  <div class="wrap">
+    <span class="eyebrow">The road ahead</span>
+    <h1>Building next.</h1>
+    <p class="lede">Tempo is built by one person, in public, around one rule:
+    <strong>nothing is marketed before it ships</strong>. This page is the honest ledger —
+    what's in the app today, what's being built right now, and what's planned. No dates,
+    because dates from a one-person team are fiction. Just order.</p>
+    <div class="legend" aria-label="Status legend">
+      <span class="status shipped">Shipped</span>
+      <span class="status building">Building</span>
+      <span class="status planned">Planned</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <article class="entry">
+      <div class="entry-top">
+        <h2>The foundation</h2>
+        <span class="status shipped">Shipped</span>
+      </div>
+      <p>Everything on the homepage is in the app now — this is the part you can hold.</p>
+      <ul>
+        <li><strong>One grid for the whole week</strong> — tasks, events, habits and focus
+        time together, with durations that block real time.</li>
+        <li><strong>A calendar built for changing weeks</strong> — a full year down to a
+        single day, fast enough that re-entering a new fortnight isn't punishment.</li>
+        <li><strong>Sharing by invitation</strong> — pair with the one person you plan with,
+        share exactly the lists you choose, hand tasks over, and follow what changed.</li>
+        <li><strong>Offline first</strong> — everything works with no connection and syncs
+        when you're back.</li>
+        <li><strong>The Grove</strong> — focus sessions that grow a forest, kept in your
+        personal space. No leaderboards anywhere in shared spaces, ever.</li>
+      </ul>
+    </article>
+
+    <article class="entry">
+      <div class="entry-top">
+        <h2>Lists that reach the calendar</h2>
+        <span class="status shipped">Shipped</span>
+      </div>
+      <p>A shared list is only half the job — the other half is time. The bridge is in:</p>
+      <ul>
+        <li>Give any list item a date and it lands on the calendar
+        <strong>in its list's colour</strong>, on both calendars if the list is shared.</li>
+        <li><strong>Repeating list items</strong> — milk goes back on the grocery list next
+        week by itself.</li>
+        <li><strong>Whose turn it is, visible</strong> — when someone takes a task, the
+        calendar shows who's taking it, so bin night belongs to a person, not to a list.</li>
+      </ul>
+    </article>
+
+    <article class="entry">
+      <div class="entry-top">
+        <h2>Commitment capture</h2>
+        <span class="status shipped">Shipped · v0</span>
+      </div>
+      <p>Tempo pulls commitments out of pasted text — <strong>as proposals you approve,
+      never silent changes</strong>. Paste an email, an announcement, a roster into
+      &ldquo;Add from Text&rdquo; and Tempo lists the dated commitments it finds, on your
+      device, for you to approve one by one. Photos and PDFs come next. The point isn't
+      automation for its own sake: it's that the person who notices everything shouldn't
+      have to be the one who types everything.</p>
+    </article>
+
+    <article class="entry">
+      <div class="entry-top">
+        <h2>Capacity, not empty calendar space</h2>
+        <span class="status building">Building</span>
+      </div>
+      <p>A two-hour gap after a long shift is not two hours of energy. The first slice
+      shipped: every calendar day now shows <strong>how much it really holds</strong>, and
+      moving something in the re-plan tells you what the target day already carries.
+      Next comes the harder part — commutes, recovery, and the difference between time
+      you have and time you can actually use.</p>
+    </article>
+
+    <article class="entry">
+      <div class="entry-top">
+        <h2>Recovery, when the day collapses</h2>
+        <span class="status shipped">Shipped</span>
+      </div>
+      <p>Every planner is designed for the day going well. Tempo asks a calm question
+      instead of showing a wall of overdue red: <strong>"Today didn't go to plan?"</strong>
+      One quiet review of everything hanging over today, where each thing can move
+      (with the target day's real load beside it), shrink, be handed to the person you
+      plan with, or be let go of on purpose. A bad day is something to recover from,
+      not to be shamed for.</p>
+    </article>
+
+    <article class="entry">
+      <div class="entry-top">
+        <h2>Sharing that goes further</h2>
+        <span class="status shipped">Shipped · growing</span>
+      </div>
+      <p>Two rungs landed together. <strong>The privacy gradient</strong>: mark a private
+      task &ldquo;Show as Busy&rdquo; and whoever you share with sees the time is taken —
+      never what it is. And <strong>more than one person</strong>: connect with each of the
+      people you plan with — family, a housemate, anyone — every connection its own
+      invitation, everyone seeing only what you mark shared. (Everyone needs the current
+      version.) Next: per-person sharing choices, so different people can see different
+      lists.</p>
+    </article>
+
+    <section class="principles">
+      <h2>Rules the roadmap follows</h2>
+      <p>Features change; these don't.</p>
+      <ul class="plist">
+        <li>Nothing changes your plan silently.
+          <span>Anything Tempo ever suggests — a captured commitment, a re-plan — is a proposal you approve.</span></li>
+        <li>Sharing is an invitation you accept.
+          <span>Never an account you're conscripted into. Both sides say yes, and either side can leave.</span></li>
+        <li>A bad day is something to recover from, not to be shamed for.
+          <span>No guilt-red backlogs. Recovery is a feature, not a failure state.</span></li>
+        <li>Gamification stays in your personal Grove.
+          <span>No points, streaks or scoreboards anywhere two people share — plans are not a competition.</span></li>
+        <li>What you pay for today never gets taken away.
+          <span>Early supporters keep their price for life, and your data exports free, always.</span></li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<footer class="pagefoot">
+  <div class="wrap">
+    <div class="row">
+      <p>© 2026 Tempo · Built in Perth</p>
+      <div class="links">
+        <a href="index.html">Home</a>
+        <a href="shared-life-planner.html">What is a shared life planner?</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/MrMaster08/tempo-site/issues">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Anonymous download counter — same fire-and-forget ping as the homepage. */
+(function () {
+  "use strict";
+  var API_URL = "https://tempo-api-7a9482.azurewebsites.net";
+  document.querySelectorAll('a[href$="Tempo.dmg"]').forEach(function (link) {
+    link.addEventListener("click", function () {
+      try {
+        fetch(API_URL + "/api/telemetry/download", {
+          method: "POST",
+          keepalive: true,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ kind: "dmg" })
+        }).catch(function () {});
+      } catch (e) { /* never block the download */ }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -3,76 +3,112 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tempo — Get it done. Grow your grove.</title>
-<meta name="description" content="Tempo puts tasks, calendar, habits and deep-focus sessions in one quiet, quick app for Mac and iPhone — and every finished focus session grows a plant in your grove. Free download, no account needed.">
-<meta property="og:title" content="Tempo — Get it done. Grow your grove.">
-<meta property="og:description" content="Tasks, calendar, habits and focus in one quiet app for Mac and iPhone. Finish a focus session and a plant joins your grove. Free download, no account needed.">
+<title>Tempo — For weeks that don't repeat.</title>
+<meta name="description" content="Tempo keeps your changing schedule — and the person you plan life with — in one place. Tasks, calendar, habits and focus for Mac and iPhone, built for roster drops, placement weeks and shift swaps. Free download, no account needed.">
+<meta property="og:title" content="Tempo — For weeks that don't repeat.">
+<meta property="og:description" content="The shared life planner for schedules that never sit still. Tasks, calendar, habits and focus on Mac and iPhone — shared by choice with the person you plan with. Free download, no account needed.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mrmaster08.github.io/tempo-site/">
 <meta property="og:image" content="https://mrmaster08.github.io/tempo-site/assets/icon-512.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tempo — Get it done. Grow your grove.">
-<meta name="twitter:description" content="Tasks, calendar, habits and focus in one quiet app for Mac and iPhone. Free download, no account needed.">
+<meta name="twitter:title" content="Tempo — For weeks that don't repeat.">
+<meta name="twitter:description" content="The shared life planner for schedules that never sit still. Tasks, calendar, habits and focus on Mac and iPhone. Free download, no account needed.">
 <meta name="twitter:image" content="https://mrmaster08.github.io/tempo-site/assets/icon-512.png">
-<meta name="theme-color" content="#FAFAF6" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0C120E" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FAF9F3" media="(prefers-color-scheme: light)">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ================= Tokens ================= */
+/* ================= Tokens =================
+   Dark is the approved default; the light scheme overrides below.
+   Every color on the page lives here — the sole exception is the amber
+   squiggle in h1 .hl, whose data-URI SVG cannot read CSS variables. */
 :root {
-  --paper: #FAFAF6;
-  --ink: #0F1F16;
-  --ink-2: #43584C;
-  --ink-3: #5A6B60;
-  --line: rgba(15, 31, 22, 0.13);
-  --line-soft: rgba(15, 31, 22, 0.08);
+  color-scheme: dark;
+  /* scheme-dependent */
+  --paper: #0C120E;
+  --ink: #EDF3EC;
+  --ink-2: #AEC0B4;
+  --ink-3: #8FA396;
+  --line: rgba(237, 243, 236, 0.15);
+  --line-soft: rgba(237, 243, 236, 0.09);
+  --eyebrow: #3FBE79;
+  --head-accent: #3FBE79;
+  --card: #131A15;
+  --btn-bg: #2FA968;
+  --btn-ink: #04281C;
+  --btn-hover: #3FBE79;
+  --chip-grn-bg: rgba(47, 169, 104, 0.16);  --chip-grn-ink: #83DFA9;
+  --chip-amb-bg: rgba(232, 184, 75, 0.14);  --chip-amb-ink: #EACD84;
+  --chip-sage-bg: rgba(237, 243, 236, 0.08);--chip-sage-ink: #B9CBBE;
+  --nav-bg: rgba(12, 18, 14, 0.74);
+  --focus: #3FBE79;
+  --img-shadow: drop-shadow(0 26px 48px rgba(0, 0, 0, 0.55));
+  --frame-shadow: 0 34px 80px -24px rgba(0, 0, 0, 0.7);
+  --band-bg: linear-gradient(180deg, var(--grn-dark) 0%, #0A2E1C 55%, #0C120E 100%);
+  /* brand — constant across schemes */
   --grn: #2FA968;
   --grn-deep: #17753F;
   --grn-dark: #0B3D24;
   --amber: #E8B84B;
-  --eyebrow: #17753F;
-  --head-accent: #17753F;
-  --card: #FFFFFF;
-  --btn-bg: #17753F;
-  --btn-ink: #FFFFFF;
-  --btn-hover: #0B3D24;
-  --chip-grn-bg: #E3F1E8;  --chip-grn-ink: #17753F;
-  --chip-amb-bg: #F6ECD2;  --chip-amb-ink: #7A5A12;
-  --chip-sage-bg: #E9F0EA; --chip-sage-ink: #3D5A48;
-  --nav-bg: rgba(250, 250, 246, 0.82);
-  --focus: #17753F;
-  --img-shadow: drop-shadow(0 26px 44px rgba(11, 61, 36, 0.14));
-  --frame-shadow: 0 30px 70px -20px rgba(11, 61, 36, 0.35);
-  /* dark bands (Grove, Download) — constant across schemes */
+  --amber-line: rgba(232, 184, 75, 0.45);
+  --white: #FFFFFF;
+  --sel-bg: rgba(47, 169, 104, 0.34);
+  /* dark bands (Grove, Download, Plus card) — constant across schemes */
   --band-ink: #EDF6EF;
   --band-mut: #A9C4B2;
   --band-grn: #5ED797;
+  --band-line: rgba(237, 246, 239, 0.14);
+  --band-line-2: rgba(237, 246, 239, 0.16);
+  --band-sel-bg: rgba(94, 215, 151, 0.32);
+  --plus-bg: linear-gradient(170deg, var(--grn-dark), #092E1B);
+  --on-grn: #04281C;
+  --frame-bg: #10150F;
+  /* scrims & overlays (always dark, in both schemes) */
+  --hint-bg: rgba(12, 18, 14, 0.66);
+  --backdrop: rgba(7, 16, 11, 0.6); /* heavier in light — see below */
+  --scrim-mut: #CFE0D4;
+  --scrim-line: rgba(237, 246, 239, 0.24);
+  --scrim-btn: rgba(12, 18, 14, 0.55);
+  --scrim-btn-hover: rgba(12, 18, 14, 0.8);
+  /* shadows — green-black tints that read on either scheme */
+  --btn-shadow: 0 1px 2px rgba(7, 26, 16, 0.10);
+  --btn-shadow-hover: 0 2px 4px rgba(7, 26, 16, 0.10), 0 14px 28px -10px rgba(7, 26, 16, 0.35);
+  --btn-shadow-active: 0 1px 2px rgba(7, 26, 16, 0.12);
+  --nav-shadow: 0 12px 32px -24px rgba(11, 61, 36, 0.35);
+  --card-shadow: 0 24px 48px -24px rgba(11, 61, 36, 0.3);
+  --wn-shadow: 0 40px 90px -30px rgba(7, 20, 12, 0.5);
+  --shot-shadow: 0 44px 100px -30px rgba(0, 0, 0, 0.65);
+  --lb-shadow: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.5));
 }
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --paper: #0C120E;
-    --ink: #EDF3EC;
-    --ink-2: #AEC0B4;
-    --ink-3: #8FA396;
-    --line: rgba(237, 243, 236, 0.15);
-    --line-soft: rgba(237, 243, 236, 0.09);
-    --eyebrow: #3FBE79;
-    --head-accent: #3FBE79;
-    --card: #131A15;
-    --btn-bg: #2FA968;
-    --btn-ink: #04281C;
-    --btn-hover: #3FBE79;
-    --chip-grn-bg: rgba(47, 169, 104, 0.16);  --chip-grn-ink: #83DFA9;
-    --chip-amb-bg: rgba(232, 184, 75, 0.14);  --chip-amb-ink: #EACD84;
-    --chip-sage-bg: rgba(237, 243, 236, 0.08);--chip-sage-ink: #B9CBBE;
-    --nav-bg: rgba(12, 18, 14, 0.74);
-    --focus: #3FBE79;
-    --img-shadow: drop-shadow(0 26px 48px rgba(0, 0, 0, 0.55));
-    --frame-shadow: 0 34px 80px -24px rgba(0, 0, 0, 0.7);
+    color-scheme: light;
+    --paper: #FAF9F3;
+    --ink: #0F1F16;
+    --ink-2: #43584C;
+    --ink-3: #57685D;
+    --line: rgba(15, 31, 22, 0.13);
+    --line-soft: rgba(15, 31, 22, 0.08);
+    --eyebrow: #17753F;
+    --head-accent: #17753F;
+    --card: #FFFFFF;
+    --btn-bg: #17753F;
+    --btn-ink: #FFFFFF;
+    --btn-hover: #0B3D24;
+    --chip-grn-bg: #E3F1E8;  --chip-grn-ink: #17753F;
+    --chip-amb-bg: #F6ECD2;  --chip-amb-ink: #745510;
+    --chip-sage-bg: #E9F0EA; --chip-sage-ink: #3D5A48;
+    --nav-bg: rgba(250, 249, 243, 0.82);
+    --focus: #17753F;
+    --img-shadow: drop-shadow(0 2px 5px rgba(11, 61, 36, 0.10)) drop-shadow(0 28px 46px rgba(11, 61, 36, 0.20));
+    --frame-shadow: 0 3px 9px rgba(11, 61, 36, 0.14), 0 30px 70px -20px rgba(11, 61, 36, 0.40);
+    --band-bg: linear-gradient(180deg, var(--grn-dark) 0%, #0A2E1C 60%, #082418 100%);
+    --backdrop: rgba(7, 16, 11, 0.8);
   }
 }
 
@@ -95,10 +131,10 @@ a { color: inherit; }
 
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
 .band :focus-visible { outline-color: var(--band-grn); }
-::selection { background: rgba(47, 169, 104, 0.34); color: var(--ink); }
-::-moz-selection { background: rgba(47, 169, 104, 0.34); color: var(--ink); }
-.band ::selection, .plan.plus ::selection { background: rgba(94, 215, 151, 0.32); color: #EDF6EF; }
-.band ::-moz-selection, .plan.plus ::-moz-selection { background: rgba(94, 215, 151, 0.32); color: #EDF6EF; }
+::selection { background: var(--sel-bg); color: var(--ink); }
+::-moz-selection { background: var(--sel-bg); color: var(--ink); }
+.band ::selection, .plan.plus ::selection { background: var(--band-sel-bg); color: var(--band-ink); }
+.band ::-moz-selection, .plan.plus ::-moz-selection { background: var(--band-sel-bg); color: var(--band-ink); }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 100;
@@ -162,7 +198,7 @@ h1, h2, h3.row-head { text-wrap: balance; }
   background: var(--btn-bg); color: var(--btn-ink);
   padding: 14px 28px; border-radius: 999px;
   font-size: 15.5px; font-weight: 600; text-decoration: none;
-  box-shadow: 0 1px 2px rgba(7, 26, 16, 0.10);
+  box-shadow: var(--btn-shadow);
   transition: background 0.22s ease,
               transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
               box-shadow 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -170,13 +206,13 @@ h1, h2, h3.row-head { text-wrap: balance; }
 .btn:hover {
   background: var(--btn-hover);
   transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(7, 26, 16, 0.10), 0 14px 28px -10px rgba(7, 26, 16, 0.35);
+  box-shadow: var(--btn-shadow-hover);
 }
-.btn:active { transform: translateY(0); transition-duration: 0.1s; box-shadow: 0 1px 2px rgba(7, 26, 16, 0.12); }
+.btn:active { transform: translateY(0); transition-duration: 0.1s; box-shadow: var(--btn-shadow-active); }
 .btn svg { width: 17px; height: 17px; flex: none; transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .btn:hover svg { transform: translateY(2px); }
 .btn.sm { padding: 9px 19px; font-size: 14px; }
-.band .btn { background: var(--grn); color: #04281C; }
+.band .btn { background: var(--grn); color: var(--on-grn); }
 .band .btn:hover { background: var(--band-grn); }
 .tlink {
   display: inline-flex; align-items: center; gap: 7px;
@@ -201,7 +237,7 @@ h1, h2, h3.row-head { text-wrap: balance; }
 }
 .navbar.scrolled {
   border-bottom-color: var(--line);
-  box-shadow: 0 12px 32px -24px rgba(11, 61, 36, 0.35);
+  box-shadow: var(--nav-shadow);
 }
 .navbar nav { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
@@ -225,6 +261,15 @@ h1, h2, h3.row-head { text-wrap: balance; }
   gap: 26px; margin-top: 40px; flex-wrap: wrap;
 }
 .hero-trust { margin-top: 20px; font-size: 13.5px; color: var(--ink-3); }
+.hero-scen {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 8px 10px; margin: 30px auto 0; max-width: 640px;
+}
+.hero-scen span {
+  font-size: 13.5px; font-weight: 500; color: var(--ink-2);
+  padding: 7px 15px; border: 1px solid var(--line); border-radius: 999px;
+  white-space: nowrap;
+}
 .hero-shot { margin: clamp(56px, 8vw, 96px) auto 0; max-width: 1040px; padding: 0 8px; }
 .hero-shot img { width: 100%; filter: var(--img-shadow); }
 
@@ -235,8 +280,9 @@ h1, h2, h3.row-head { text-wrap: balance; }
   .hero h1 { animation-delay: 0.1s; }
   .hero .lede { animation-delay: 0.2s; }
   .hero .hero-ctas { animation-delay: 0.3s; }
-  .hero .hero-new { animation-delay: 0.35s; }
-  .hero .hero-trust { animation-delay: 0.4s; }
+  .hero .hero-scen { animation-delay: 0.36s; }
+  .hero .hero-new { animation-delay: 0.42s; }
+  .hero .hero-trust { animation-delay: 0.46s; }
   .hero-shot { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.42s both; }
 }
 
@@ -310,6 +356,8 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 .share-illo .paper-f { fill: var(--paper); }
 .share-illo .badge-f { fill: var(--grn); }
 .share-illo .amb-f { fill: var(--amber); }
+.share-illo .chk { fill: none; stroke: var(--white); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.share-illo .amb-ring { fill: none; stroke: var(--amber); stroke-width: 1.8; opacity: 0.55; }
 
 /* ================= Editorial index ================= */
 .idx { margin-top: clamp(90px, 11vw, 140px); border-top: 1px solid var(--line); }
@@ -325,7 +373,7 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 
 /* ================= Grove band ================= */
 .band {
-  background: linear-gradient(180deg, #0B3D24 0%, #0A2E1C 55%, #0C120E 100%);
+  background: var(--band-bg);
   color: var(--band-ink);
 }
 .band .eyebrow { color: var(--band-grn); }
@@ -335,7 +383,7 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 .grove-facts {
   display: flex; flex-wrap: wrap; gap: 14px 54px;
   margin-top: 44px; padding-top: 28px;
-  border-top: 1px solid rgba(237, 246, 239, 0.14);
+  border-top: 1px solid var(--band-line);
 }
 .gfact { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--band-mut); }
 .gfact svg { width: 22px; height: 22px; flex: none; color: var(--band-grn); }
@@ -344,8 +392,8 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 .grove-shot img {
   width: 100%;
   border-radius: 16px;
-  border: 1px solid rgba(237, 246, 239, 0.16);
-  box-shadow: 0 44px 100px -30px rgba(0, 0, 0, 0.65);
+  border: 1px solid var(--band-line-2);
+  box-shadow: var(--shot-shadow);
 }
 .tiers {
   display: flex; flex-wrap: wrap; justify-content: center;
@@ -354,7 +402,7 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 .tier {
   display: flex; flex-direction: column; align-items: center; gap: 9px;
   padding: 4px clamp(18px, 3.4vw, 40px);
-  border-left: 1px solid rgba(237, 246, 239, 0.14);
+  border-left: 1px solid var(--band-line);
 }
 .tier:first-child { border-left: none; }
 .tier .plant { font-size: 27px; line-height: 1; }
@@ -374,7 +422,7 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 .phone:nth-child(3) { margin-top: 12px; }
 .phone:nth-child(4) { margin-top: 52px; }
 .phone-frame {
-  background: #10150F;
+  background: var(--frame-bg);
   border-radius: 40px;
   padding: 9px;
   box-shadow: var(--frame-shadow);
@@ -404,7 +452,7 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
   transition: transform 0.32s cubic-bezier(0.2, 0.7, 0.2, 1),
               box-shadow 0.32s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.plan:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(11, 61, 36, 0.3); }
+.plan:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); }
 .plan-name { font-size: 15px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
 .price-num { font-size: clamp(40px, 5vw, 52px); letter-spacing: -0.02em; line-height: 1.1; margin-top: 14px; }
 .price-num .per { font-family: "Inter", sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--ink-3); }
@@ -417,8 +465,8 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 .plan li svg { width: 15px; height: 15px; flex: none; transform: translateY(2px); color: var(--eyebrow); }
 .plan li strong { color: var(--ink); font-weight: 600; }
 .plan.plus {
-  background: linear-gradient(170deg, #0B3D24, #092E1B);
-  border-color: rgba(237, 246, 239, 0.14);
+  background: var(--plus-bg);
+  border-color: var(--band-line);
   color: var(--band-ink);
   position: relative;
 }
@@ -432,14 +480,23 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
   position: absolute; top: 26px; right: 26px;
   font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--amber);
-  border: 1px solid rgba(232, 184, 75, 0.45);
+  border: 1px solid var(--amber-line);
   padding: 5px 12px; border-radius: 999px;
 }
 .plan .btn { margin-top: auto; align-self: flex-start; }
 .plan.free .btn { margin-top: 28px; }
-.plan.plus .btn { background: var(--grn); color: #04281C; margin-top: 28px; }
+.plan.plus .btn { background: var(--grn); color: var(--on-grn); margin-top: 28px; }
 .plan.plus .btn:hover { background: var(--band-grn); }
 .plans-note { text-align: center; margin-top: 34px; font-size: 13.5px; color: var(--ink-3); }
+.promise {
+  max-width: 620px; margin: 56px auto 0; padding: 30px 34px 28px;
+  text-align: center; background: var(--card);
+  border: 1px solid var(--line); border-radius: 20px;
+  box-shadow: var(--card-shadow);
+}
+.promise .eyebrow { margin-bottom: 12px; }
+.promise-line { font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
+.promise-line strong { color: var(--ink); }
 
 /* ================= FAQ ================= */
 .faq { max-width: 780px; margin: clamp(48px, 6vw, 72px) auto 0; border-top: 1px solid var(--line); }
@@ -466,13 +523,19 @@ section { padding: clamp(100px, 12vw, 160px) 0; }
 .dl-grid h2 { max-width: 11ch; }
 .dl-cta { margin-top: 36px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .dl-meta { font-size: 13.5px; color: var(--band-mut); }
-.steps { list-style: none; counter-reset: step; border-top: 1px solid rgba(237, 246, 239, 0.14); }
+.steps { list-style: none; counter-reset: step; border-top: 1px solid var(--band-line); }
 .steps li {
   display: grid; grid-template-columns: 56px 1fr; gap: 20px;
-  padding: 24px 0; border-bottom: 1px solid rgba(237, 246, 239, 0.14);
+  padding: 24px 0; border-bottom: 1px solid var(--band-line);
   font-size: 15.5px; color: var(--band-mut);
 }
 .steps li strong { color: var(--band-ink); font-weight: 600; }
+.founder-line {
+  margin-top: clamp(56px, 7vw, 84px); padding-top: 30px;
+  border-top: 1px solid var(--band-line);
+  text-align: center; font-size: 14px; font-style: italic;
+  color: var(--band-mut); max-width: 56ch; margin-left: auto; margin-right: auto;
+}
 .step-num { font-size: 26px; font-style: italic; font-weight: 500; color: var(--band-grn); line-height: 1.3; }
 
 /* ================= Footer ================= */
@@ -506,7 +569,7 @@ html.modal-open { overflow: hidden; }
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 13px; border-radius: 999px;
   font-size: 12.5px; font-weight: 600; letter-spacing: 0.01em; white-space: nowrap;
-  background: rgba(12, 18, 14, 0.66); color: #EDF6EF;
+  background: var(--hint-bg); color: var(--band-ink);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   opacity: 0; pointer-events: none;
@@ -526,7 +589,7 @@ dialog.lb, dialog.wn {
 }
 dialog.lb[open], dialog.wn[open] { display: grid; place-items: center; }
 dialog.lb::backdrop, dialog.wn::backdrop {
-  background: rgba(7, 16, 11, 0.6);
+  background: var(--backdrop);
   -webkit-backdrop-filter: blur(12px) saturate(1.1);
   backdrop-filter: blur(12px) saturate(1.1);
 }
@@ -537,21 +600,21 @@ dialog.lb::backdrop, dialog.wn::backdrop {
   max-height: calc(100vh - 132px);
   width: auto; height: auto;
   border-radius: 16px;
-  filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.5));
+  filter: var(--lb-shadow);
   will-change: transform;
 }
-.lb-cap { font-size: 14px; font-weight: 600; color: #CFE0D4; text-align: center; }
+.lb-cap { font-size: 14px; font-weight: 600; color: var(--scrim-mut); text-align: center; }
 .lb-close {
   position: absolute; top: 20px; right: 20px; z-index: 1;
   width: 42px; height: 42px; border-radius: 999px;
-  border: 1px solid rgba(237, 246, 239, 0.24);
-  background: rgba(12, 18, 14, 0.55); color: #EDF6EF;
+  border: 1px solid var(--scrim-line);
+  background: var(--scrim-btn); color: var(--band-ink);
   display: grid; place-items: center; cursor: pointer;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   transition: background 0.2s ease, transform 0.2s ease;
 }
-.lb-close:hover { background: rgba(12, 18, 14, 0.8); transform: scale(1.06); }
+.lb-close:hover { background: var(--scrim-btn-hover); transform: scale(1.06); }
 .lb-close svg { width: 16px; height: 16px; }
 dialog.lb :focus-visible { outline-color: var(--band-grn); }
 
@@ -562,7 +625,7 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
   background: var(--card); color: var(--ink);
   border: 1px solid var(--line); border-radius: 22px;
   padding: 36px 36px 30px;
-  box-shadow: 0 40px 90px -30px rgba(7, 20, 12, 0.5);
+  box-shadow: var(--wn-shadow);
 }
 .wn-panel .eyebrow { margin-bottom: 14px; }
 .wn-title {
@@ -682,6 +745,7 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
         <a class="hide-sm" href="#day">Features</a>
         <a class="hide-sm" href="#grove">Grove</a>
         <a class="hide-sm" href="#pricing">Pricing</a>
+        <a class="hide-sm" href="building-next.html">What&rsquo;s next</a>
         <a class="hide-sm" href="#faq">FAQ</a>
         <a class="btn sm" href="Tempo.dmg" download>Download</a>
       </div>
@@ -695,9 +759,10 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
 <header class="hero">
   <div class="wrap">
     <span class="eyebrow">For Mac + iPhone</span>
-    <h1>Get it done.<br><span class="accent">Grow your <span class="hl">grove</span>.</span></h1>
-    <p class="lede">Tasks, calendar, habits and deep-focus sessions in one quiet, quick
-    app — where <strong>every finished session grows a plant</strong>.</p>
+    <h1>For weeks that<br><span class="accent">don&rsquo;t <span class="hl">repeat</span>.</span></h1>
+    <p class="lede">Tempo keeps your changing schedule — and <strong>the person you plan life
+    with</strong> — in one place. Tasks, calendar, habits and focus in one quiet, quick app
+    that works offline and shares only what you choose.</p>
     <div class="hero-ctas">
       <a class="btn" href="Tempo.dmg" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14"/></svg>
@@ -707,6 +772,12 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14m0 0 5-5m-5 5-5-5"/></svg>
       </a>
     </div>
+    <p class="hero-scen" aria-label="Made for weeks like these">
+      <span>When the roster drops on a Thursday</span>
+      <span>Placement weeks and exam weeks</span>
+      <span>Knowing when you&rsquo;re both actually free</span>
+      <span>Groceries, bills, and whose turn the bins are</span>
+    </p>
     <p class="hero-new">
       <button type="button" class="wn-link" id="wn-open" aria-haspopup="dialog">
         <span class="wn-badge" aria-hidden="true">New</span>
@@ -746,9 +817,10 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
   <div class="wrap">
     <div class="sec-head rv">
       <span class="eyebrow">Everything in its place</span>
-      <h2>Your whole day, one place.</h2>
+      <h2>The calendar shows your week. Tempo plans it.</h2>
       <p class="lede">No juggling between five apps. Tasks, events, habits and focus time
-      live on <strong>the same grid</strong> — and behave like they belong together.</p>
+      live on <strong>the same grid</strong> — so a week that never looks the same twice
+      still fits in one view.</p>
     </div>
 
     <div class="rows">
@@ -800,7 +872,7 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
       <div class="row rv">
         <div class="row-media">
           <svg class="share-illo" viewBox="0 0 440 360" role="img"
-            aria-label="Illustration of two people paired in Tempo, sharing a checklist: one task completed and assigned, one with a comment, one just added.">
+            aria-label="Illustration of two people paired in Tempo, sharing a checklist: one task completed and taken, one with a comment, one just added.">
             <!-- avatars -->
             <circle class="st mut" cx="196" cy="74" r="42"/>
             <circle class="st mut" cx="196" cy="60" r="9.5"/>
@@ -810,7 +882,7 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
             <path class="st" d="M236 95a16 17 0 0 1 32 0"/>
             <!-- paired badge -->
             <circle class="badge-f" cx="224" cy="110" r="11"/>
-            <path d="m219 110 3.5 3.5 6.5-6.5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="chk" d="m219 110 3.5 3.5 6.5-6.5"/>
             <!-- shared list -->
             <rect class="grn-f" x="64" y="166" width="22" height="22" rx="7"/>
             <rect class="st grn" x="64" y="166" width="22" height="22" rx="7" fill="none"/>
@@ -830,19 +902,21 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
             <rect class="st mut" x="64" y="274" width="22" height="22" rx="7"/>
             <rect class="txt" x="102" y="281" width="122" height="7" rx="3.5"/>
             <circle class="amb-f" cx="356" cy="285" r="4.5"/>
-            <circle cx="356" cy="285" r="9.5" fill="none" stroke="#E8B84B" stroke-width="1.8" opacity="0.55"/>
+            <circle class="amb-ring" cx="356" cy="285" r="9.5"/>
           </svg>
         </div>
         <div class="row-copy">
           <span class="eyebrow">Plan it together</span>
           <h3 class="row-head">Share it with the person you plan with.</h3>
-          <p>Your family, a friend, or anyone you run life alongside — Tempo pairs
-          you with one other person. You choose what&rsquo;s shared; everything else stays yours.</p>
+          <p>Your family, a friend, your housemate — connect with the people you run
+          life alongside, each by their own invitation. Sharing is something you accept,
+          and you choose what&rsquo;s shared; everything else stays yours.</p>
           <ul class="row-points">
-            <li><strong>A shared calendar</strong> — both weeks on one screen.</li>
+            <li><strong>A shared calendar</strong> — know when you&rsquo;re both actually free.</li>
             <li><strong>Shared lists</strong> — groceries, chores, the trip.</li>
-            <li><strong>Assign &amp; comment</strong> — hand a task over, leave a note.</li>
-            <li><strong>An activity feed</strong> of what changed while you weren&rsquo;t looking.</li>
+            <li><strong>&ldquo;Could you take this?&rdquo;</strong> — hand a task over, leave a note.</li>
+            <li><strong>Busy, without why</strong> — block out time they can see, never what it is.</li>
+            <li><strong>An activity feed</strong> of what changed, so nobody has to ask twice.</li>
           </ul>
         </div>
       </div>
@@ -939,7 +1013,7 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
         <div class="phone-frame">
           <button class="shot" type="button" data-caption="Today, at a glance"
             aria-label="Enlarge screenshot: today's tasks on iPhone">
-            <img src="assets/iphone-tasks.png" width="560" height="1217" alt="Tempo's task list on iPhone: today's tasks with times, tags and priorities.">
+            <img src="assets/iphone-tasks.png" width="560" height="1217" alt="Tempo's Next 7 Days list on iPhone, grouped into Today, Tomorrow and This week — tasks with times and priorities across the coming week.">
             <span class="shot-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>Enlarge</span>
           </button>
         </div>
@@ -1022,6 +1096,12 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
     </div>
     <p class="plans-note rv">No ads, ever. Cancel anytime and your data stays on your device.<br>
     One optional extra: a US$0.99 instant plant unlock in the Grove shop, for the impatient.</p>
+    <div class="promise rv" style="--d:.12s">
+      <span class="eyebrow">The pricing promise</span>
+      <p class="promise-line">People who subscribe today keep this price for as long as they
+      keep the subscription — <strong>early supporters keep their price for life</strong>.
+      Nothing you pay for is ever taken away. And your data exports free, always.</p>
+    </div>
   </div>
 </section>
 
@@ -1070,6 +1150,18 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
         Mac and iPhone stay in step from day one.</div>
       </details>
       <details>
+        <summary>Where is Tempo heading?
+          <svg class="cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <div class="ans">Toward a planner that understands hard weeks — pulling commitments
+        out of rosters and emails as proposals you approve, planning around real energy
+        rather than empty calendar space, and recovering the day calmly when it collapses.
+        Nothing is marketed before it ships: the <a href="building-next.html">Building next</a>
+        page tracks what&rsquo;s shipped, what&rsquo;s in progress and what&rsquo;s planned, and
+        <a href="shared-life-planner.html">What is a shared life planner?</a> explains the idea
+        Tempo is built around.</div>
+      </details>
+      <details>
         <summary>Where does my data live?
           <svg class="cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
         </summary>
@@ -1105,6 +1197,8 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
           <span><strong>First launch:</strong> open Tempo, dismiss the macOS notice, then click <strong>Open Anyway</strong> in System Settings → Privacy &amp; Security — once. After that it opens normally, forever.</span></li>
       </ol>
     </div>
+    <p class="founder-line rv" style="--d:.16s">Built in Perth by one developer who plans his
+    own week around a uni timetable — and shares his lists with the person he plans with.</p>
   </div>
 </section>
 
@@ -1118,6 +1212,8 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
     </div>
     <p>© 2026 Tempo</p>
     <div class="links">
+      <a href="shared-life-planner.html">What is a shared life planner?</a>
+      <a href="building-next.html">Building next</a>
       <a href="privacy.html">Privacy</a>
       <a href="https://github.com/MrMaster08/tempo-site/issues">Support</a>
     </div>
@@ -1142,16 +1238,25 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
     </button>
     <span class="eyebrow">What&rsquo;s new</span>
-    <h2 class="wn-title" id="wn-title">New growth in the Grove.</h2>
+    <h2 class="wn-title" id="wn-title">For days that fall apart.</h2>
     <ul class="wn-list">
-      <li><span><strong>Plants that grow with you.</strong> A short session grows a young
-      plant. Fifty minutes or more grows a grand one, with flourishes all its own.</span></li>
-      <li><span><strong>All 28 species, redrawn.</strong> Every plant in the Grove wears
-      fresh artwork, from first sprout to rarest bloom.</span></li>
-      <li><span><strong>The shop, one tap away.</strong> Wherever you are in the Grove,
-      the plant shop is a single tap away.</span></li>
+      <li><span><strong>Didn&rsquo;t go to plan?</strong> One calm review of everything
+      hanging over today — move it, shorten it, hand it over, or let it go on purpose.
+      No wall of overdue red.</span></li>
+      <li><span><strong>Add from text.</strong> Paste an email, a roster, an announcement —
+      Tempo proposes the commitments it finds, and only what you approve is added.
+      All on your device.</span></li>
+      <li><span><strong>Busy, without why.</strong> Mark a private task &ldquo;Show as
+      Busy&rdquo; and whoever you share with sees the time is taken — never what it is.</span></li>
+      <li><span><strong>Share with more than one person.</strong> Family, a housemate,
+      whoever you plan with — each connection is its own invitation.</span></li>
+      <li><span><strong>A calendar that knows its load.</strong> List items land in their
+      list&rsquo;s colour, every day shows how much it really holds, and you can see who&rsquo;s
+      taking what.</span></li>
+      <li><span><strong>More people, same care.</strong> Connect with more than one person —
+      family, a housemate, whoever you plan with — each by their own invitation.</span></li>
     </ul>
-    <p class="wn-foot">Already growing in the free app.</p>
+    <p class="wn-foot">All in today&rsquo;s free download.</p>
   </div>
 </dialog>
 
@@ -1181,6 +1286,27 @@ dialog.lb :focus-visible { outline-color: var(--band-grn); }
     });
   }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
   targets.forEach(function (el) { io.observe(el); });
+
+  /* Safety net: if observer callbacks never arrive (throttled/occluded renderers,
+     reader modes, saved pages), reveal anything the viewport has reached anyway —
+     content must never be reachable-but-invisible. Retires itself once done. */
+  var rescue = function () {
+    var pending = 0;
+    targets.forEach(function (el) {
+      if (el.classList.contains("in")) { return; }
+      if (el.getBoundingClientRect().top < window.innerHeight + 40) {
+        el.classList.add("in");
+      } else {
+        pending += 1;
+      }
+    });
+    if (pending === 0) {
+      window.removeEventListener("scroll", rescue);
+      window.clearInterval(rescueTimer);
+    }
+  };
+  window.addEventListener("scroll", rescue, { passive: true });
+  var rescueTimer = window.setInterval(rescue, 900);
 })();
 
 /* Anonymous download counter: fire-and-forget ping when the DMG button is

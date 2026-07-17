@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a shared life planner? — Tempo</title>
+<meta name="description" content="A shared life planner keeps two people's changing schedules — and everything planned around them — in one consent-based place. The five things that make one, and how Tempo measures up today.">
+<meta property="og:title" content="What is a shared life planner?">
+<meta property="og:description" content="Not a to-do app, not a family calendar display, not a work tool at home. The five criteria of a shared life planner — and how Tempo measures up, honestly.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mrmaster08.github.io/tempo-site/shared-life-planner.html">
+<meta property="og:image" content="https://mrmaster08.github.io/tempo-site/assets/icon-512.png">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0C120E" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FAF9F3" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Tokens — dark is the approved default; light overrides below (matches index.html). */
+:root {
+  color-scheme: dark;
+  --paper: #0C120E;
+  --ink: #EDF3EC;
+  --ink-2: #AEC0B4;
+  --ink-3: #8FA396;
+  --line: rgba(237, 243, 236, 0.15);
+  --line-soft: rgba(237, 243, 236, 0.09);
+  --eyebrow: #3FBE79;
+  --head-accent: #3FBE79;
+  --card: #131A15;
+  --btn-bg: #2FA968;
+  --btn-ink: #04281C;
+  --btn-hover: #3FBE79;
+  --chip-grn-bg: rgba(47, 169, 104, 0.16);  --chip-grn-ink: #83DFA9;
+  --chip-amb-bg: rgba(232, 184, 75, 0.14);  --chip-amb-ink: #EACD84;
+  --chip-sage-bg: rgba(237, 243, 236, 0.08);--chip-sage-ink: #B9CBBE;
+  --nav-bg: rgba(12, 18, 14, 0.74);
+  --focus: #3FBE79;
+  --sel-bg: rgba(47, 169, 104, 0.34);
+  --card-shadow: 0 24px 48px -24px rgba(11, 61, 36, 0.3);
+  --grn: #2FA968;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --paper: #FAF9F3;
+    --ink: #0F1F16;
+    --ink-2: #43584C;
+    --ink-3: #57685D;
+    --line: rgba(15, 31, 22, 0.13);
+    --line-soft: rgba(15, 31, 22, 0.08);
+    --eyebrow: #17753F;
+    --head-accent: #17753F;
+    --card: #FFFFFF;
+    --btn-bg: #17753F;
+    --btn-ink: #FFFFFF;
+    --btn-hover: #0B3D24;
+    --chip-grn-bg: #E3F1E8;  --chip-grn-ink: #17753F;
+    --chip-amb-bg: #F6ECD2;  --chip-amb-ink: #745510;
+    --chip-sage-bg: #E9F0EA; --chip-sage-ink: #3D5A48;
+    --nav-bg: rgba(250, 249, 243, 0.82);
+    --focus: #17753F;
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--paper); color: var(--ink);
+  line-height: 1.65; font-size: 16px;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+::selection { background: var(--sel-bg); }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 28px; }
+
+.navbar {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+  border-bottom: 1px solid var(--line-soft);
+}
+.navbar nav { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; }
+.navwrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.brand span { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-links a:not(.btn) {
+  font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+  text-decoration: none; padding: 8px 13px; border-radius: 8px;
+  transition: color 0.15s ease;
+}
+.nav-links a:not(.btn):hover { color: var(--ink); }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--btn-bg); color: var(--btn-ink);
+  padding: 9px 19px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: background 0.22s ease;
+  margin-left: 10px;
+}
+.btn:hover { background: var(--btn-hover); }
+.btn.lg { padding: 14px 28px; font-size: 15.5px; margin-left: 0; }
+
+header.page { padding: clamp(72px, 9vw, 110px) 0 clamp(40px, 5vw, 56px); }
+.eyebrow {
+  display: block; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--eyebrow); margin-bottom: 20px;
+}
+h1 {
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: clamp(38px, 6.4vw, 60px); line-height: 1.04;
+  letter-spacing: -0.025em; font-weight: 600; text-wrap: balance;
+}
+.lede { margin-top: 24px; font-size: 18px; line-height: 1.65; color: var(--ink-2); max-width: 58ch; }
+.lede strong { color: var(--ink); }
+main { padding-bottom: clamp(80px, 10vw, 120px); }
+main p { color: var(--ink-2); }
+main p + p { margin-top: 14px; }
+main p strong { color: var(--ink); }
+
+.not-list { list-style: none; margin: 26px 0 0; }
+.not-list li {
+  border-top: 1px solid var(--line-soft); padding: 15px 2px;
+  color: var(--ink-2); font-size: 15.5px;
+}
+.not-list li:last-child { border-bottom: 1px solid var(--line-soft); }
+.not-list strong {
+  color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px;
+}
+.not-list em { font-style: italic; }
+
+h2.crit-head {
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -0.02em; font-weight: 600;
+  margin-top: clamp(56px, 7vw, 76px);
+}
+.crit-sub { margin-top: 12px; font-size: 15.5px; }
+
+.crit { counter-reset: crit; list-style: none; margin-top: 26px; }
+.crit li {
+  counter-increment: crit;
+  border: 1px solid var(--line); border-radius: 20px;
+  background: var(--card); box-shadow: var(--card-shadow);
+  padding: 26px 30px 24px; margin-top: 18px;
+  position: relative;
+}
+.crit li::before {
+  content: "0" counter(crit);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 15px; font-weight: 600; color: var(--eyebrow);
+  letter-spacing: 0.04em;
+  display: block; margin-bottom: 8px;
+}
+.crit h3 {
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: clamp(20px, 2.6vw, 24px); line-height: 1.2;
+  letter-spacing: -0.015em; font-weight: 600; text-wrap: balance;
+  padding-right: 96px;
+}
+.crit p { margin-top: 10px; font-size: 15px; }
+.status {
+  position: absolute; top: 26px; right: 26px;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 999px; white-space: nowrap;
+}
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.status.shipped  { background: var(--chip-grn-bg);  color: var(--chip-grn-ink); }
+.status.building { background: var(--chip-amb-bg);  color: var(--chip-amb-ink); }
+.status.planned  { background: var(--chip-sage-bg); color: var(--chip-sage-ink); }
+@media (max-width: 560px) {
+  .crit h3 { padding-right: 0; }
+  .status { position: static; margin-top: 12px; }
+}
+
+.close { margin-top: clamp(56px, 7vw, 76px); }
+.close .ctas { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 26px; }
+.tlink {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 15.5px; font-weight: 600; color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line); text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+.tlink:hover { color: var(--eyebrow); text-decoration-color: var(--eyebrow); }
+
+.pagefoot { border-top: 1px solid var(--line); padding: 36px 0 48px; }
+.pagefoot .row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--ink-3); }
+.pagefoot a { color: var(--ink-2); text-decoration: none; }
+.pagefoot a:hover { color: var(--ink); }
+.pagefoot .links { display: flex; gap: 18px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="navwrap">
+    <nav aria-label="Main">
+      <a class="brand" href="index.html"><img src="assets/icon-192.png" alt="Tempo app icon"><span>Tempo</span></a>
+      <div class="nav-links">
+        <a href="building-next.html">Building next</a>
+        <a class="btn" href="Tempo.dmg" download>Download</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<header class="page">
+  <div class="wrap">
+    <span class="eyebrow">The idea Tempo is built around</span>
+    <h1>What is a shared life planner?</h1>
+    <p class="lede">Most people don't plan their life in an app. They plan it in
+    <strong>a calendar, a list app, a group chat, and one person's memory</strong> — and the
+    memory does most of the work. A shared life planner exists to retire that fourth tool.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <p>It's easiest to define by what it isn't:</p>
+    <ul class="not-list">
+      <li><strong>Not a to-do app with sharing bolted on.</strong> To-do apps are built for
+      one person; "sharing" usually means someone forwards you a screenshot of their list.</li>
+      <li><strong>Not a family calendar display.</strong> A calendar that shows the plan
+      still leaves one person to do all the noticing, entering and maintaining —
+      <em>the calendar shows your week; it doesn't plan it</em>.</li>
+      <li><strong>Not a work tool that follows you home.</strong> The moment dinner plans
+      have an assignee and a board, the relationship has a manager. Nobody wants to be
+      someone's direct report at home.</li>
+      <li><strong>Not a scheduler that assumes your week repeats.</strong> Rosters drop,
+      placements start, shifts swap. A planner built on "weekly recurring" breaks exactly
+      when life gets hard.</li>
+    </ul>
+
+    <h2 class="crit-head">The five criteria</h2>
+    <p class="crit-sub">A shared life planner is an app that meets all five. Tempo is being
+    built to — and this page says honestly how far along each one is.</p>
+
+    <ol class="crit">
+      <li>
+        <h3>A task and its time are one object.</h3>
+        <span class="status shipped">Shipped</span>
+        <p>A to-do with a date isn't a note about time — it <strong>is</strong> time. In Tempo,
+        tasks carry durations and sit on the same grid as events, so a 90-minute job takes
+        90 minutes of the week — and list items land on the calendar in their list's
+        colour, on both calendars when the list is shared.</p>
+      </li>
+      <li>
+        <h3>Sharing is consent-based, with a privacy gradient.</h3>
+        <span class="status shipped">Shipped · deepening</span>
+        <p>Sharing is an invitation you accept, not an account you're conscripted into.
+        You choose which lists are shared; habits, focus and everything else stay yours.
+        And the first rung of the gradient shipped: mark a private task &ldquo;Show as
+        Busy&rdquo; and they see you're <em>busy</em> from 3 to 5 — never <em>why</em>.</p>
+      </li>
+      <li>
+        <h3>Plans are made against real capacity, not blank space.</h3>
+        <span class="status building">Building</span>
+        <p>A two-hour gap after a long shift is not two hours of energy. First slice
+        shipped: every day shows how much it really holds before you put more on it.
+        The harder part — energy, commutes, recovery — is what's being built.</p>
+      </li>
+      <li>
+        <h3>When a day collapses, the plan recovers.</h3>
+        <span class="status shipped">Shipped</span>
+        <p>Not a wall of overdue red, and not a silent reshuffle behind your back. A calm
+        question — &ldquo;didn't go to plan?&rdquo; — and a re-plan you approve, move by
+        move. A bad day is something to recover from, not to be shamed for.</p>
+      </li>
+      <li>
+        <h3>The app does the noticing, so no person has to.</h3>
+        <span class="status shipped">Shipped · v0</span>
+        <p>The heaviest work in a shared life isn't doing the tasks — it's noticing them.
+        &ldquo;Add from Text&rdquo; turns pasted emails, rosters and announcements into
+        proposals you approve, on your device. Photos and PDFs come next, so the plan
+        stops living in one person's head.</p>
+      </li>
+    </ol>
+
+    <div class="close">
+      <p><strong>Who counts as "the people you plan with"?</strong> Whoever carries the
+      load alongside you — family, a housemate, the person you split the bills with. Tempo
+      connects you with each of them individually: every connection is its own invitation,
+      accepted by them, and everyone sees only what you've marked shared.</p>
+      <div class="ctas">
+        <a class="btn lg" href="Tempo.dmg" download>Download Tempo for Mac — free</a>
+        <a class="tlink" href="building-next.html">See what's shipped and what's next</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="pagefoot">
+  <div class="wrap">
+    <div class="row">
+      <p>© 2026 Tempo · Built in Perth</p>
+      <div class="links">
+        <a href="index.html">Home</a>
+        <a href="building-next.html">Building next</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/MrMaster08/tempo-site/issues">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Anonymous download counter — same fire-and-forget ping as the homepage. */
+(function () {
+  "use strict";
+  var API_URL = "https://tempo-api-7a9482.azurewebsites.net";
+  document.querySelectorAll('a[href$="Tempo.dmg"]').forEach(function (link) {
+    link.addEventListener("click", function () {
+      try {
+        fetch(API_URL + "/api/telemetry/download", {
+          method: "POST",
+          keepalive: true,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ kind: "dmg" })
+        }).catch(function () {});
+      } catch (e) { /* never block the download */ }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
