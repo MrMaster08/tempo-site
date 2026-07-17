@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy — Tempo</title>
+<title>Privacy — Weektide</title>
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0C120E" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#FAF9F3" media="(prefers-color-scheme: light)">
@@ -216,9 +216,9 @@ main a:not(.back) { color: var(--accent); font-weight: 600; }
 <div class="navbar" id="navbar">
   <div class="navwrap">
     <nav aria-label="Main">
-      <a class="brand" href="index.html"><img src="assets/icon-192.png" alt="Tempo app icon"><span>Tempo</span></a>
+      <a class="brand" href="index.html"><img src="assets/icon-192.png" alt="Weektide app icon"><span>Weektide</span></a>
       <div class="nav-links">
-        <a class="btn sm" href="Tempo.dmg" download>Download</a>
+        <a class="btn sm" href="Weektide.dmg" download>Download</a>
       </div>
     </nav>
   </div>
@@ -226,20 +226,20 @@ main a:not(.back) { color: var(--accent); font-weight: 600; }
 
 <main id="main">
   <div class="wrap">
-  <a class="back" href="index.html">← Tempo</a>
+  <a class="back" href="index.html">← Weektide</a>
   <h1>Privacy policy</h1>
   <p class="updated">Last updated 2 July 2026</p>
 
-  <p>Tempo is built to keep your plans yours. This page describes everything the
+  <p>Weektide is built to keep your plans yours. This page describes everything the
   app does with data. It's short because there isn't much to tell.</p>
 
   <h2>Your data lives on your device</h2>
   <p>Tasks, lists, habits, focus sessions and settings are stored locally on your
-  Mac or iPhone. Tempo has no advertising, no tracking code, and never sells
+  Mac or iPhone. Weektide has no advertising, no tracking code, and never sells
   data. The only thing the app reports home is an anonymous install counter: a
   random install identifier with the platform, app version, OS version and
   device model, plus a count of how many times the app has launched, so we know
-  how many devices run Tempo. It never includes your name, email, tasks, or
+  how many devices run Weektide. It never includes your name, email, tasks, or
   anything you write, and it is never joined to your account. Your content
   never leaves your device unless you turn on sync.</p>
 
@@ -261,11 +261,11 @@ main a:not(.back) { color: var(--accent); font-weight: 600; }
 
   <h2>Calendars</h2>
   <p>Apple Calendar events are read directly on your device and never leave it.
-  Tempo only reads the calendars you choose to display, and your calendar
+  Weektide only reads the calendars you choose to display, and your calendar
   events are never uploaded to the sync server.</p>
 
   <h2>Purchases</h2>
-  <p>Tempo Plus subscriptions are processed entirely by Apple. Tempo never sees
+  <p>Weektide Plus subscriptions are processed entirely by Apple. Weektide never sees
   your payment details.</p>
 
   <h2>Notifications</h2>
@@ -277,7 +277,7 @@ main a:not(.back) { color: var(--accent); font-weight: 600; }
   from the server.</p>
 
   <h2>Contact</h2>
-  <p>Questions? Reach out via the <a href="https://github.com/MrMaster08/tempo-site/issues">Tempo support page</a>.</p>
+  <p>Questions? Reach out via the <a href="https://github.com/MrMaster08/tempo-site/issues">Weektide support page</a>.</p>
   </div>
 </main>
 
@@ -296,7 +296,7 @@ main a:not(.back) { color: var(--accent); font-weight: 600; }
 (function () {
   "use strict";
   var API_URL = "https://tempo-api-7a9482.azurewebsites.net";
-  document.querySelectorAll('a[href$="Tempo.dmg"]').forEach(function (link) {
+  document.querySelectorAll('a[href$="Weektide.dmg"]').forEach(function (link) {
     link.addEventListener("click", function () {
       try {
         fetch(API_URL + "/api/telemetry/download", {

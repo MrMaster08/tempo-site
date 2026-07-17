@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Tempo · Developer</title>
+<title>Weektide · Developer</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -353,11 +353,11 @@ td .muted { color: var(--ink-3); }
 <div class="auth-screen" id="authScreen">
   <div class="auth-card">
     <div class="auth-brand">
-      <img src="assets/icon-192.png" alt="Tempo app icon">
-      <b>Tempo</b>
+      <img src="assets/icon-192.png" alt="Weektide app icon">
+      <b>Weektide</b>
       <span class="tag">Developer</span>
     </div>
-    <p class="intro">Private operations console. Sign in with your Tempo sync account.</p>
+    <p class="intro">Private operations console. Sign in with your Weektide sync account.</p>
     <form id="signInForm" novalidate>
       <div class="field">
         <label for="email">Email</label>
@@ -380,9 +380,9 @@ td .muted { color: var(--ink-3); }
   <div class="topbar">
     <div class="wrap row">
       <div class="brand">
-        <img src="assets/icon-192.png" alt="Tempo app icon">
+        <img src="assets/icon-192.png" alt="Weektide app icon">
         <span class="who">
-          <span class="t">Tempo · Developer</span>
+          <span class="t">Weektide · Developer</span>
           <span class="e" id="whoEmail"></span>
         </span>
       </div>
@@ -456,7 +456,7 @@ td .muted { color: var(--ink-3); }
               <span class="track"><span class="thumb"></span></span>
             </label>
             <span class="switch-label">
-              Make Tempo Plus free for everyone
+              Make Weektide Plus free for everyone
               <span class="sl-sub">Unlocks every Plus feature for all accounts.</span>
             </span>
           </div>
@@ -486,7 +486,7 @@ td .muted { color: var(--ink-3); }
     <section class="section" aria-labelledby="grantHead">
       <div class="section-head">
         <span class="kicker">Premium grants</span>
-        <h2 id="grantHead">Grant or revoke Tempo Plus</h2>
+        <h2 id="grantHead">Grant or revoke Weektide Plus</h2>
         <p class="hint">Give a specific account full Plus access, or take it back.</p>
       </div>
       <div class="panel">
@@ -570,7 +570,7 @@ td .muted { color: var(--ink-3); }
     return d.toLocaleDateString(undefined, { day: "numeric", month: "short" });
   }
 
-  /* ── Network (Tempo Cloud API on Azure) ─────────── */
+  /* ── Network (Weektide Cloud API on Azure) ─────────── */
   function storeSession(data) {
     sessionStorage.setItem(SS_TOKEN, data.access_token);
     if (data.refresh_token) sessionStorage.setItem(SS_REFRESH, data.refresh_token);
