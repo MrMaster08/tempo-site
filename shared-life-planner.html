@@ -19,120 +19,279 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Tokens — dark is the approved default; light overrides below (matches index.html). */
+/* ============================================================
+   TEMPO — botanical premium, dark-first.
+   Tokens are copied verbatim from index.html so every page reads
+   as one system; the warm-cream light scheme overrides below.
+   ============================================================ */
 :root {
   color-scheme: dark;
-  --paper: #0C120E;
+  /* ---- canvas & ink (scheme-dependent) ---- */
+  --paper: #0A0F0C;
+  --paper-2: #0C120E;
   --ink: #EDF3EC;
-  --ink-2: #AEC0B4;
-  --ink-3: #8FA396;
-  --line: rgba(237, 243, 236, 0.15);
-  --line-soft: rgba(237, 243, 236, 0.09);
-  --eyebrow: #3FBE79;
-  --head-accent: #3FBE79;
-  --card: #131A15;
-  --btn-bg: #2FA968;
-  --btn-ink: #04281C;
-  --btn-hover: #3FBE79;
+  --ink-2: #A7BDAF;
+  --ink-3: #7E9587;
+  --line: rgba(237, 243, 236, 0.11);
+  --line-2: rgba(237, 243, 236, 0.16);
+  --line-soft: rgba(237, 243, 236, 0.07);
+  /* ---- the one signal accent: luminous leaf-green (rationed) ---- */
+  --accent: #6FDDA1;
+  --accent-2: #86E9B4;
+  --accent-ink: #052A1D;
+  --accent-soft: rgba(111, 221, 161, 0.14);
+  --accent-line: rgba(111, 221, 161, 0.34);
+  /* ---- calmer brand green: labels, icons, chips (NOT the accent) ---- */
+  --eyebrow: #4FC58A;
+  --grn: #2FA968;
+  --grn-deep: #17753F;
+  --grn-dark: #0B3D24;
+  /* ---- surfaces ---- */
+  --card: #10160F;
+  --card-2: #131B15;
+  --frame-bg: #0E140F;
+  --ring: rgba(237, 246, 239, 0.13);
+  /* ---- CTA ---- */
+  --btn-bg: var(--accent);
+  --btn-ink: var(--accent-ink);
+  --btn-hover: var(--accent-2);
+  /* ---- chips ---- */
   --chip-grn-bg: rgba(47, 169, 104, 0.16);  --chip-grn-ink: #83DFA9;
   --chip-amb-bg: rgba(232, 184, 75, 0.14);  --chip-amb-ink: #EACD84;
   --chip-sage-bg: rgba(237, 243, 236, 0.08);--chip-sage-ink: #B9CBBE;
-  --nav-bg: rgba(12, 18, 14, 0.74);
-  --focus: #3FBE79;
-  --sel-bg: rgba(47, 169, 104, 0.34);
-  --card-shadow: 0 24px 48px -24px rgba(11, 61, 36, 0.3);
-  --grn: #2FA968;
+  /* ---- warm counterpoint ---- */
+  --amber: #E8B84B;
+  --amber-line: rgba(232, 184, 75, 0.45);
+  --white: #FFFFFF;
+  --nav-bg: rgba(10, 15, 12, 0.72);
+  --focus: var(--accent);
+  --sel-bg: rgba(111, 221, 161, 0.30);
+  /* ---- glow (dark elevation = ring + green ambient, not black drop) ---- */
+  --glow: rgba(66, 200, 130, 0.24);
+  --glow-warm: rgba(232, 184, 75, 0.10);
+  --tile-shadow-hover: 0 26px 60px -34px rgba(2, 30, 17, 0.95);
+  --card-shadow: 0 24px 60px -34px rgba(2, 24, 14, 0.85);
+  --nav-shadow: 0 14px 40px -30px rgba(2, 24, 14, 0.7);
+  /* ---- scrims (always dark) ---- */
+  --backdrop: rgba(5, 14, 9, 0.66);
+  --btn-shadow: 0 1px 2px rgba(3, 20, 12, 0.4);
+  --btn-shadow-hover: 0 2px 6px rgba(3, 20, 12, 0.35), 0 18px 40px -16px rgba(66, 200, 130, 0.45);
+  --btn-shadow-active: 0 1px 2px rgba(3, 20, 12, 0.5);
 }
 @media (prefers-color-scheme: light) {
   :root {
     color-scheme: light;
     --paper: #FAF9F3;
+    --paper-2: #F4F2E8;
     --ink: #0F1F16;
     --ink-2: #43584C;
-    --ink-3: #57685D;
-    --line: rgba(15, 31, 22, 0.13);
-    --line-soft: rgba(15, 31, 22, 0.08);
-    --eyebrow: #17753F;
-    --head-accent: #17753F;
+    --ink-3: #5B6C61;
+    --line: rgba(15, 31, 22, 0.12);
+    --line-2: rgba(15, 31, 22, 0.18);
+    --line-soft: rgba(15, 31, 22, 0.07);
+    --accent: #17753F;
+    --accent-2: #0B3D24;
+    --accent-ink: #FFFFFF;
+    --accent-soft: rgba(23, 117, 63, 0.10);
+    --accent-line: rgba(23, 117, 63, 0.30);
+    --eyebrow: #1C7A44;
     --card: #FFFFFF;
-    --btn-bg: #17753F;
+    --card-2: #FFFFFF;
+    --frame-bg: #FFFFFF;
+    --ring: rgba(15, 31, 22, 0.14);
+    --btn-bg: var(--accent);
     --btn-ink: #FFFFFF;
     --btn-hover: #0B3D24;
     --chip-grn-bg: #E3F1E8;  --chip-grn-ink: #17753F;
     --chip-amb-bg: #F6ECD2;  --chip-amb-ink: #745510;
     --chip-sage-bg: #E9F0EA; --chip-sage-ink: #3D5A48;
-    --nav-bg: rgba(250, 249, 243, 0.82);
+    --nav-bg: rgba(250, 249, 243, 0.8);
     --focus: #17753F;
+    --sel-bg: rgba(47, 169, 104, 0.24);
+    --glow: rgba(23, 117, 63, 0.14);
+    --glow-warm: rgba(232, 184, 75, 0.16);
+    --tile-shadow-hover: 0 3px 8px rgba(11, 61, 36, 0.08), 0 26px 54px -28px rgba(11, 61, 36, 0.28);
+    --card-shadow: 0 2px 6px rgba(11, 61, 36, 0.06), 0 24px 50px -30px rgba(11, 61, 36, 0.26);
+    --nav-shadow: 0 12px 32px -26px rgba(11, 61, 36, 0.3);
+    --backdrop: rgba(5, 14, 9, 0.82);
   }
 }
 
+/* ================= Base ================= */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html.modal-open { overflow: hidden; }
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: var(--paper); color: var(--ink);
-  line-height: 1.65; font-size: 16px;
-  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
-::selection { background: var(--sel-bg); }
+/* Green-cast ambient wash on the dark canvas (behind everything). */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(70% 50% at 22% 0%, rgba(30, 110, 68, 0.16), transparent 60%),
+    radial-gradient(60% 44% at 88% 8%, rgba(24, 96, 60, 0.12), transparent 62%);
+}
+@media (prefers-color-scheme: light) {
+  body::before { background:
+    radial-gradient(70% 50% at 20% 0%, rgba(23, 117, 63, 0.05), transparent 60%),
+    radial-gradient(60% 40% at 90% 6%, rgba(232, 184, 75, 0.05), transparent 62%); }
+}
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
 .wrap { max-width: 720px; margin: 0 auto; padding: 0 28px; }
-
-.navbar {
-  position: sticky; top: 0; z-index: 60;
-  background: var(--nav-bg);
-  -webkit-backdrop-filter: blur(14px) saturate(1.5);
-  backdrop-filter: blur(14px) saturate(1.5);
-  border-bottom: 1px solid var(--line-soft);
-}
-.navbar nav { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; }
 .navwrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
+::selection { background: var(--sel-bg); color: var(--ink); }
+::-moz-selection { background: var(--sel-bg); color: var(--ink); }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 200;
+  background: var(--btn-bg); color: var(--btn-ink);
+  padding: 10px 18px; border-radius: 0 0 10px 0;
+  font-weight: 600; text-decoration: none; font-size: 14px;
+}
+.skip:focus-visible { left: 0; }
+
+/* ================= Buttons & links ================= */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--btn-bg); color: var(--btn-ink);
+  padding: 14px 28px; border-radius: 999px;
+  font-size: 15px; font-weight: 600; text-decoration: none;
+  box-shadow: var(--btn-shadow);
+  transition: background 0.22s ease,
+              transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
+              box-shadow 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.btn:hover {
+  background: var(--btn-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--btn-shadow-hover);
+}
+.btn:active { transform: translateY(0); transition-duration: 0.1s; box-shadow: var(--btn-shadow-active); }
+.btn svg { width: 17px; height: 17px; flex: none; transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.btn:hover svg { transform: translateY(2px); }
+.btn.sm { padding: 9px 19px; font-size: 14px; }
+.tlink {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 15px; font-weight: 600; color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-2); text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+.tlink:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* ================= Nav ================= */
+.navbar {
+  position: sticky; top: 0; z-index: 90;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.35s ease;
+}
+.navbar.scrolled {
+  border-bottom-color: var(--line);
+  box-shadow: var(--nav-shadow);
+}
+.navbar nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
 .brand img { width: 32px; height: 32px; border-radius: 8px; }
 .brand span { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
 .nav-links { display: flex; align-items: center; gap: 4px; }
 .nav-links a:not(.btn) {
-  font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+  font-size: 14px; font-weight: 500; color: var(--ink-2);
   text-decoration: none; padding: 8px 13px; border-radius: 8px;
   transition: color 0.15s ease;
 }
 .nav-links a:not(.btn):hover { color: var(--ink); }
-.btn {
-  display: inline-flex; align-items: center; gap: 9px;
-  background: var(--btn-bg); color: var(--btn-ink);
-  padding: 9px 19px; border-radius: 999px;
-  font-size: 14px; font-weight: 600; text-decoration: none;
-  transition: background 0.22s ease;
-  margin-left: 10px;
+.nav-links .btn { margin-left: 10px; }
+.nav-toggle {
+  display: none;
+  width: 42px; height: 42px; border-radius: 11px;
+  border: 1px solid var(--line-2); background: transparent; color: var(--ink);
+  align-items: center; justify-content: center; cursor: pointer;
 }
-.btn:hover { background: var(--btn-hover); }
-.btn.lg { padding: 14px 28px; font-size: 15.5px; margin-left: 0; }
+.nav-toggle svg { width: 20px; height: 20px; }
 
-header.page { padding: clamp(72px, 9vw, 110px) 0 clamp(40px, 5vw, 56px); }
+/* Mobile nav sheet */
+dialog.navsheet {
+  position: fixed; inset: 0; margin: 0; border: 0; padding: 0;
+  width: 100%; max-width: none; height: auto; max-height: none;
+  background: transparent;
+}
+dialog.navsheet::backdrop {
+  background: var(--backdrop);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.navsheet-panel {
+  background: var(--card); border-bottom: 1px solid var(--line-2);
+  padding: 16px 22px 24px;
+  box-shadow: var(--nav-shadow);
+}
+.navsheet-top { display: flex; align-items: center; justify-content: space-between; padding: 4px 0 14px; }
+.navsheet-links { display: flex; flex-direction: column; gap: 2px; }
+.navsheet-links a:not(.btn) {
+  font-size: 17px; font-weight: 500; color: var(--ink);
+  text-decoration: none; padding: 13px 6px; border-radius: 10px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.navsheet-links .btn { margin-top: 16px; justify-content: center; }
+.nav-close {
+  width: 40px; height: 40px; border-radius: 999px;
+  border: 1px solid var(--line-2); background: transparent; color: var(--ink-2);
+  display: grid; place-items: center; cursor: pointer;
+}
+.nav-close svg { width: 16px; height: 16px; }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes dlg-fade { from { opacity: 0; } to { opacity: 1; } }
+  dialog.navsheet[open]::backdrop { animation: dlg-fade 0.32s ease both; }
+  @keyframes sheet-in { from { transform: translateY(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+  dialog.navsheet[open] .navsheet-panel { animation: sheet-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+}
+
+/* ================= Page header ================= */
+header.page { position: relative; padding: clamp(72px, 9vw, 110px) 0 clamp(40px, 5vw, 56px); }
+header.page::before {
+  content: ""; position: absolute; left: 50%; top: -140px; transform: translateX(-50%);
+  width: min(960px, 120%); height: 520px; z-index: -1; pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 42%, var(--glow), transparent 70%);
+  filter: blur(24px);
+}
 .eyebrow {
-  display: block; font-size: 12px; font-weight: 600;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  display: block; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--eyebrow); margin-bottom: 20px;
 }
 h1 {
   font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
-  font-size: clamp(38px, 6.4vw, 60px); line-height: 1.04;
-  letter-spacing: -0.025em; font-weight: 600; text-wrap: balance;
+  font-size: clamp(40px, 6.6vw, 64px); line-height: 1.02;
+  letter-spacing: -0.03em; font-weight: 600; text-wrap: balance;
 }
-.lede { margin-top: 24px; font-size: 18px; line-height: 1.65; color: var(--ink-2); max-width: 58ch; }
-.lede strong { color: var(--ink); }
-main { padding-bottom: clamp(80px, 10vw, 120px); }
+.lede { margin-top: 22px; font-size: 21px; line-height: 1.6; color: var(--ink-2); max-width: 56ch; }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+/* ================= Article ================= */
+main { padding-bottom: clamp(84px, 10vw, 128px); }
 main p { color: var(--ink-2); }
 main p + p { margin-top: 14px; }
-main p strong { color: var(--ink); }
+main p strong { color: var(--ink); font-weight: 600; }
 
 .not-list { list-style: none; margin: 26px 0 0; }
 .not-list li {
   border-top: 1px solid var(--line-soft); padding: 15px 2px;
-  color: var(--ink-2); font-size: 15.5px;
+  color: var(--ink-2); font-size: 15px; line-height: 1.55;
 }
 .not-list li:last-child { border-bottom: 1px solid var(--line-soft); }
 .not-list strong {
@@ -145,20 +304,27 @@ h2.crit-head {
   font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -0.02em; font-weight: 600;
   margin-top: clamp(56px, 7vw, 76px);
 }
-.crit-sub { margin-top: 12px; font-size: 15.5px; }
+.crit-sub { margin-top: 12px; font-size: 15px; }
 
+/* The five criteria — card grammar from the homepage bento tiles. */
 .crit { counter-reset: crit; list-style: none; margin-top: 26px; }
 .crit li {
   counter-increment: crit;
-  border: 1px solid var(--line); border-radius: 20px;
+  border: 1px solid var(--line); border-radius: 24px;
   background: var(--card); box-shadow: var(--card-shadow);
   padding: 26px 30px 24px; margin-top: 18px;
   position: relative;
+  transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.2, 1),
+              box-shadow 0.26s cubic-bezier(0.2, 0.7, 0.2, 1),
+              border-color 0.26s ease;
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .crit li:hover { transform: translateY(-4px); box-shadow: var(--tile-shadow-hover); border-color: var(--line-2); }
 }
 .crit li::before {
   content: "0" counter(crit);
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 15px; font-weight: 600; color: var(--eyebrow);
+  font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto;
+  font-size: 15px; font-style: italic; font-weight: 500; color: var(--eyebrow);
   letter-spacing: 0.04em;
   display: block; margin-bottom: 8px;
 }
@@ -186,33 +352,47 @@ h2.crit-head {
 
 .close { margin-top: clamp(56px, 7vw, 76px); }
 .close .ctas { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 26px; }
-.tlink {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-size: 15.5px; font-weight: 600; color: var(--ink);
-  text-decoration: underline;
-  text-decoration-color: var(--line); text-decoration-thickness: 1.5px;
-  text-underline-offset: 6px;
-  transition: color 0.15s ease, text-decoration-color 0.15s ease;
-}
-.tlink:hover { color: var(--eyebrow); text-decoration-color: var(--eyebrow); }
 
-.pagefoot { border-top: 1px solid var(--line); padding: 36px 0 48px; }
-.pagefoot .row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--ink-3); }
-.pagefoot a { color: var(--ink-2); text-decoration: none; }
-.pagefoot a:hover { color: var(--ink); }
-.pagefoot .links { display: flex; gap: 18px; flex-wrap: wrap; }
+/* ================= Footer ================= */
+footer { border-top: 1px solid var(--line); padding: 40px 0 52px; }
+.foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.foot p { font-size: 13px; color: var(--ink-3); }
+.foot .links { display: flex; gap: 26px; flex-wrap: wrap; }
+.foot .links a { font-size: 13px; color: var(--ink-3); text-decoration: none; }
+.foot .links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+/* ================= Reduced motion & responsive ================= */
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn svg, .navbar, .crit li { transition: none; }
+  .btn:hover, .btn:hover svg, .crit li:hover { transform: none; }
+}
+@media (max-width: 680px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: inline-flex; }
+}
+@media (max-width: 640px) {
+  .wrap, .navwrap { padding: 0 20px; }
+  .lede { font-size: 19px; }
+  .crit li { padding: 22px 22px 22px; }
+  .status { top: 22px; right: 22px; }
+}
 </style>
 </head>
 <body>
 
-<div class="navbar">
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="navbar" id="navbar">
   <div class="navwrap">
     <nav aria-label="Main">
       <a class="brand" href="index.html"><img src="assets/icon-192.png" alt="Tempo app icon"><span>Tempo</span></a>
       <div class="nav-links">
         <a href="building-next.html">Building next</a>
-        <a class="btn" href="Tempo.dmg" download>Download</a>
+        <a class="btn sm" href="Tempo.dmg" download>Download</a>
       </div>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </nav>
   </div>
 </div>
@@ -227,7 +407,7 @@ h2.crit-head {
   </div>
 </header>
 
-<main>
+<main id="main">
   <div class="wrap">
 
     <p>It's easiest to define by what it isn't:</p>
@@ -296,7 +476,7 @@ h2.crit-head {
       connects you with each of them individually: every connection is its own invitation,
       accepted by them, and everyone sees only what you've marked shared.</p>
       <div class="ctas">
-        <a class="btn lg" href="Tempo.dmg" download>Download Tempo for Mac — free</a>
+        <a class="btn" href="Tempo.dmg" download>Download Tempo for Mac — free</a>
         <a class="tlink" href="building-next.html">See what's shipped and what's next</a>
       </div>
     </div>
@@ -304,21 +484,77 @@ h2.crit-head {
   </div>
 </main>
 
-<footer class="pagefoot">
-  <div class="wrap">
-    <div class="row">
-      <p>© 2026 Tempo · Built in Perth</p>
-      <div class="links">
-        <a href="index.html">Home</a>
-        <a href="building-next.html">Building next</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="https://github.com/MrMaster08/tempo-site/issues">Support</a>
-      </div>
+<footer>
+  <div class="wrap foot">
+    <p>© 2026 Tempo · Built in Perth</p>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="building-next.html">Building next</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/MrMaster08/tempo-site/issues">Support</a>
     </div>
   </div>
 </footer>
 
+<!-- ============ Mobile nav sheet ============ -->
+<dialog class="navsheet" id="navsheet" aria-label="Menu">
+  <div class="navsheet-panel">
+    <div class="navsheet-top">
+      <a class="brand" href="index.html"><img src="assets/icon-192.png" alt="Tempo app icon"><span>Tempo</span></a>
+      <button class="nav-close" type="button" aria-label="Close menu" autofocus>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="navsheet-links">
+      <a href="building-next.html">Building next</a>
+      <a class="btn" href="Tempo.dmg" download>Download</a>
+    </div>
+  </div>
+</dialog>
+
 <script>
+(function () {
+  "use strict";
+
+  /* Sticky nav: hairline appears once the page scrolls — same as the homepage. */
+  var bar = document.getElementById("navbar");
+  var onScroll = function () { bar.classList.toggle("scrolled", window.scrollY > 8); };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* Mobile nav sheet — same behaviour as the homepage. */
+  var sheet = document.getElementById("navsheet");
+  var navBtn = document.getElementById("nav-toggle");
+  if (sheet && navBtn && typeof sheet.showModal === "function") {
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var lock = function () {
+      var gap = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.classList.add("modal-open");
+      if (gap > 0) document.body.style.paddingRight = gap + "px";
+    };
+    var unlock = function () {
+      document.documentElement.classList.remove("modal-open");
+      document.body.style.paddingRight = "";
+    };
+    var closeSheet = function () {
+      if (sheet.classList.contains("closing")) return;
+      if (reduced.matches) { sheet.close(); return; }
+      sheet.classList.add("closing");
+      window.setTimeout(function () { sheet.classList.remove("closing"); sheet.close(); }, 220);
+    };
+    navBtn.addEventListener("click", function () { lock(); sheet.showModal(); });
+    sheet.addEventListener("close", unlock);
+    sheet.addEventListener("cancel", function (e) { e.preventDefault(); closeSheet(); });
+    sheet.addEventListener("click", function (e) { if (e.target === sheet) closeSheet(); });
+    sheet.querySelector(".nav-close").addEventListener("click", closeSheet);
+    sheet.querySelectorAll(".navsheet-links a").forEach(function (a) {
+      a.addEventListener("click", function () { closeSheet(); });
+    });
+  } else if (navBtn) {
+    navBtn.hidden = true;
+  }
+})();
+
 /* Anonymous download counter — same fire-and-forget ping as the homepage. */
 (function () {
   "use strict";
