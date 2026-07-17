@@ -237,10 +237,11 @@ main a:not(.back) { color: var(--accent); font-weight: 600; }
   <p>Tasks, lists, habits, focus sessions and settings are stored locally on your
   Mac or iPhone. Tempo has no advertising, no tracking code, and never sells
   data. The only thing the app reports home is an anonymous install counter — a
-  random device identifier with the app version and device model, so we know
+  random install identifier with the platform, app version, OS version and
+  device model, plus a count of how many times the app has launched, so we know
   how many devices run Tempo. It never includes your name, email, tasks, or
-  anything you write. Your content never leaves your device unless you turn on
-  sync.</p>
+  anything you write, and it is never joined to your account. Your content
+  never leaves your device unless you turn on sync.</p>
 
   <h2>If you create a sync account</h2>
   <p>Cloud sync is optional. When you create an account, the following is stored
@@ -252,13 +253,16 @@ main a:not(.back) { color: var(--accent); font-weight: 600; }
     <li>A securely hashed password — never the password itself.</li>
   </ul>
   <p>Sharing only ever includes items you explicitly mark as shared. You can
-  disconnect the person you share with, or delete your account and its server data, at any time
-  from Settings → Sync.</p>
+  disconnect the person you share with at any time. You can also delete your
+  account — from Settings → Sync on your Mac, or Settings → Account on your
+  iPhone — which immediately removes your account and everything it stores on
+  the sync server. Anything stored on your devices stays there until you delete
+  it on the device.</p>
 
   <h2>Calendars</h2>
   <p>Apple Calendar events are read directly on your device and never leave it.
-  Optional Google Calendar and work-calendar connections only read the
-  calendars you choose to display.</p>
+  Tempo only reads the calendars you choose to display, and your calendar
+  events are never uploaded to the sync server.</p>
 
   <h2>Purchases</h2>
   <p>Tempo Plus subscriptions are processed entirely by Apple. Tempo never sees
